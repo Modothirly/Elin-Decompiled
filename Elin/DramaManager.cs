@@ -813,6 +813,15 @@ public class DramaManager : EMono
 				EMono.BranchOrHomeBranch.resources.Get(p2).Mod(p3.ToInt());
 			});
 			break;
+		case "getAchievement":
+			AddEvent(delegate
+			{
+				if (new string[1] { "ONEV" }.Contains(p2))
+				{
+					Steam.GetAchievement(p2.ToEnum<ID_Achievement>());
+				}
+			});
+			break;
 		case "bossText":
 			AddEvent(delegate
 			{

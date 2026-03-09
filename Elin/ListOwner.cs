@@ -121,4 +121,17 @@ public class ListOwner : EClass
 		RefreshCaption();
 		other.RefreshCaption();
 	}
+
+	public void RefreshAll(bool freeze = true)
+	{
+		if (freeze)
+		{
+			EClass.ui.FreezeScreen(0.1f);
+		}
+		List();
+		other.List();
+		RefreshCaption();
+		other.RefreshCaption();
+		Main.OnRefreshMenu();
+	}
 }

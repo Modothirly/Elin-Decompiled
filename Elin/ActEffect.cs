@@ -1078,6 +1078,14 @@ public class ActEffect : EClass
 			{
 				CC.TryDropBossLoot();
 			}
+			if (CC.id == "bell_silver")
+			{
+				EClass.player.stats.escapeSilverBell++;
+				if (EClass.player.stats.escapeSilverBell >= 10)
+				{
+					Steam.GetAchievement(ID_Achievement.BELL);
+				}
+			}
 			CC.Destroy();
 			break;
 		case EffectId.BurnMana:

@@ -219,4 +219,19 @@ public class Party : EClass
 		}
 		return num;
 	}
+
+	public void Disband()
+	{
+		foreach (Chara item in members.Copy())
+		{
+			if (!item.IsPC)
+			{
+				RemoveMember(item);
+				if (item.homeZone != EClass._zone)
+				{
+					item.MoveZone(item.homeZone);
+				}
+			}
+		}
+	}
 }

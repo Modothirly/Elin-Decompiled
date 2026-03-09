@@ -20,5 +20,7 @@ public enum ID_Achievement
 	DEMITAS,
 	KETTLE,
 	FAITH_HEALING,
-	ONEV
+	ONEV,
+	JURE,
+	BELL
 }

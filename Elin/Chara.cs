@@ -6048,7 +6048,7 @@ public class Chara : Card, IPathfindWalker
 		}
 		else
 		{
-			if (IsPC && HasElement(1274) && a.vPotential < 0 && !flag2)
+			if (IsPC && HasElement(1274) && a.vPotential < 0 && !flag2 && !a.HasTag("dontForget"))
 			{
 				Msg.Say("noSpellStock");
 				EInput.Consume();
@@ -6611,7 +6611,7 @@ public class Chara : Card, IPathfindWalker
 				}
 				stealthSeen++;
 			}
-			else if (CanSeeLos(chara2) && (!flag2 || EClass.pc.isBlind || EClass.pc.CanSeeLos(chara2)) && (!IsPCFaction || EClass.pc.ai.ShouldAllyAttack(chara2)))
+			else if (CanSeeLos(chara2) && (!flag2 || EClass.pc.isBlind || EClass.pc.CanSeeLos(chara2)) && (!base.IsPCFactionOrMinion || EClass.pc.ai.ShouldAllyAttack(chara2)))
 			{
 				if (!IsPCParty)
 				{
@@ -7449,6 +7449,10 @@ public class Chara : Card, IPathfindWalker
 			break;
 		case UIList.SortMode.ByWorkk:
 			break;
+		}
+		if (base.isFav)
+		{
+			sortVal -= 100000000;
 		}
 	}
 

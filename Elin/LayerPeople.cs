@@ -125,6 +125,21 @@ public class LayerPeople : ELayer
 		return layerPeople;
 	}
 
+	public static LayerPeople CreateParty()
+	{
+		LayerPeople layerPeople = Create(Mode.Double);
+		layerPeople.multi.AddOwner(0, new ListPeopleParty
+		{
+			textHeader = "candidates"
+		});
+		layerPeople.multi.AddOwner(1, new ListPeopleParty
+		{
+			textHeader = "faction_Member"
+		});
+		ELayer.ui.AddLayer(layerPeople);
+		return layerPeople;
+	}
+
 	public static LayerPeople CreateBed(TraitBed bed)
 	{
 		LayerPeople layerPeople = Create(Mode.Double);

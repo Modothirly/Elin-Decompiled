@@ -34,7 +34,7 @@ public class ConPeaky : Condition
 			owner.PlaySound("bike_kick");
 			if (owner.host != null)
 			{
-				owner.host.ModExp((owner.host.ride == owner) ? 226 : 227, owner.Evalue(1423) * 20);
+				owner.host.ModExp((owner.host.ride == owner) ? 226 : 227, owner.Evalue(1423) * 50);
 			}
 		}
 	}

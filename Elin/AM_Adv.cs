@@ -546,7 +546,8 @@ public class AM_Adv : AM_BaseGameMode
 			if (AI_PlayMusic.keepPlaying)
 			{
 				Thing playingTool = AI_PlayMusic.playingTool;
-				if (EInput.IsAnyKeyDown() || (playingTool.GetRootCard() != EClass.pc && (!playingTool.ExistsOnMap || playingTool.Dist(EClass.pc) > 1)))
+				ConSuffocation condition = EClass.pc.GetCondition<ConSuffocation>();
+				if (EInput.IsAnyKeyDown() || (playingTool.GetRootCard() != EClass.pc && (!playingTool.ExistsOnMap || playingTool.Dist(EClass.pc) > 1)) || (condition != null && condition.GetPhase() > 0))
 				{
 					AI_PlayMusic.CancelKeepPlaying();
 					return;

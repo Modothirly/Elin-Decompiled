@@ -483,5 +483,20 @@ public class BaseListPeople : ListOwner<Chara, ItemGeneral>
 				List();
 			});
 		}
+		if (!(this is ListPeopleParty))
+		{
+			return;
+		}
+		menuLeft.AddSpace();
+		menuLeft.AddHeader("party");
+		if (EClass.pc.party.members.Count > 1)
+		{
+			menuLeft.AddButton("disband", delegate
+			{
+				EClass.pc.party.Disband();
+				SE.Trash();
+				RefreshAll();
+			});
+		}
 	}
 }

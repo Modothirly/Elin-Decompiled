@@ -656,6 +656,10 @@ public class Element : EClass
 		{
 			n.AddText("_bullet".lang() + "hintSyncRide".lang());
 		}
+		if (EClass.pc.HasElement(1274) && source.tag.Contains("dontForget"))
+		{
+			n.AddText("_bullet".lang() + "hintDontForget".lang());
+		}
 		if (act.HaveLongPressAction)
 		{
 			int i = id;

@@ -135,6 +135,9 @@ public class Player : EClass
 		public int angryCats;
 
 		[JsonProperty]
+		public int escapeSilverBell;
+
+		[JsonProperty]
 		public long shipMoney;
 
 		public int lastShippingExp;

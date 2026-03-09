@@ -223,6 +223,24 @@ public class GameDate : Date
 		{
 			EClass.world.SendPackage(ThingGen.Create("box_xmas"));
 		}
+		foreach (Chara value2 in EClass.game.cards.globalCharas.Values)
+		{
+			if (value2.IsPCFaction && value2.IsMarried && !value2.c_love.gotMusicBox)
+			{
+				Date date = Date.ToDate(value2.c_love.dateMarriage);
+				if (date.month == base.month && date.day == base.day)
+				{
+					value2.c_love.gotMusicBox = true;
+					Thing thing3 = ThingGen.Create("musicbox_memory2");
+					thing3.MakeRefFrom(value2, EClass.pc, simple: true);
+					Thing thing4 = ThingGen.Create("parchment");
+					thing4.MakeRefFrom(value2, null, simple: true);
+					thing4.SetStr(53, "letter_love");
+					Thing p3 = ThingGen.CreateParcel(null, thing3, thing4);
+					EClass.world.SendPackage(p3);
+				}
+			}
+		}
 	}
 
 	public void AdvanceMonth()

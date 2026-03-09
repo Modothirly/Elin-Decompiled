@@ -89,7 +89,7 @@ public class GoalCombat : Goal
 				}
 			}
 			tc = owner.enemy;
-			if (tc != null && owner.IsPCFaction)
+			if (tc != null && owner.IsPCFactionOrMinion)
 			{
 				if (EClass.pc.isHidden && owner.isHidden)
 				{

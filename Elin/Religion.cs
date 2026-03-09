@@ -213,7 +213,7 @@ public class Religion : EClass
 		void SetValue(SourceCategory.Row cat, int mtp)
 		{
 			v = Mathf.Clamp(t.SelfWeight / 10, 50, 1000);
-			v *= cat.offer * mtp / 100;
+			v = v * cat.offer * mtp / 100;
 		}
 	}
 
@@ -465,6 +465,10 @@ public class Religion : EClass
 			}
 		}
 		EClass.pc.PurgeEythArtifact();
+		if (this is ReligionHealing)
+		{
+			Steam.GetAchievement(ID_Achievement.FAITH_HEALING);
+		}
 	}
 
 	public void LeaveFaith(Chara c, Religion newFaith, ConvertType type)

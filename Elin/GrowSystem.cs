@@ -688,10 +688,11 @@ public class GrowSystem : EClass
 		{
 			t.SetNum(num);
 		}
+		int num3 = t.Num;
 		TryPick(cell, t, c);
 		if (flag)
 		{
-			c.ModExpParty(207, Mathf.Min(t.c_weight / 100, 500));
+			c.ModExpParty(207, Mathf.Min(t.c_weight * num3 / 125, 500));
 		}
 	}
 

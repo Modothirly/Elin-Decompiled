@@ -17,5 +17,8 @@ public class LoveData : EClass
 	[JsonProperty]
 	public bool gaveCutter;
 
+	[JsonProperty]
+	public bool gotMusicBox;
+
 	public bool IsWed => dateWedding != 0;
 }

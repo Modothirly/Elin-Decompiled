@@ -951,6 +951,7 @@ public class CoreDebug : EScriptable
 		}
 		if (Input.GetKeyDown(KeyCode.F2))
 		{
+			EClass.pc.body.AddBodyPart(35);
 			EClass._zone.development += 10;
 			EClass._zone.development *= EClass._zone.development;
 			Chara targetChara = EClass.scene.mouseTarget.TargetChara;

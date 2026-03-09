@@ -1609,6 +1609,7 @@ public class Trait : EClass
 					break;
 				}
 			}
+			Steam.GetAchievement((owner.trait is TraitKettle) ? ID_Achievement.KETTLE : ID_Achievement.DEMITAS);
 			break;
 		}
 		case ShopType.Specific:
@@ -1685,6 +1686,7 @@ public class Trait : EClass
 			Add("board_map", 1, 0);
 			Add("board_build", 1, 0);
 			Add("book_resident", 1, 0);
+			Add("board_party", 1, 0);
 			Add("3", 1, 0);
 			Add("4", 1, 0);
 			Add("5", 1, 0);

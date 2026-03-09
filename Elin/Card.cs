@@ -923,6 +923,18 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 		}
 	}
 
+	public bool isFav
+	{
+		get
+		{
+			return _bits2[10];
+		}
+		set
+		{
+			_bits2[10] = value;
+		}
+	}
+
 	public bool isBackerContent => c_idBacker != 0;
 
 	public SourceBacker.Row sourceBacker

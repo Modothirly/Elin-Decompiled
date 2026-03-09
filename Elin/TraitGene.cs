@@ -40,7 +40,7 @@ public class TraitGene : Trait
 
 	public override void TrySetHeldAct(ActPlan p)
 	{
-		if (!p.pos.Equals(EClass.pc.pos) || !EClass.pc.HasElement(1274))
+		if (owner.c_DNA == null || !p.pos.Equals(EClass.pc.pos) || !EClass.pc.HasElement(1274))
 		{
 			return;
 		}
