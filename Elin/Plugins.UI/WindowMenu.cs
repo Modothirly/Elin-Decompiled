@@ -51,6 +51,19 @@ public class WindowMenu
 		}
 	}
 
+	public void AddHeader(string idLang, Sprite sprite = null)
+	{
+		Init();
+		Util.Instantiate<Transform>("UI/Window/Base/Element/Header WindowMenu2", layout).GetComponentInChildren<UIText>().text = idLang.lang();
+	}
+
+	public void AddSpace(float height = 30f)
+	{
+		RectTransform rectTransform = new GameObject().AddComponent<RectTransform>();
+		rectTransform.sizeDelta = new Vector2(1f, height);
+		rectTransform.SetParent(layout.transform);
+	}
+
 	public UIButton AddButton(string idLang, Action<UIButton> onClick, Sprite sprite = null, string idButton = "Default")
 	{
 		Init();
