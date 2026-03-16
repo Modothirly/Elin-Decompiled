@@ -4,6 +4,8 @@ public static class Rand
 {
 	public static int MaxBytes = 1111;
 
+	public static int baseSeed = -1;
+
 	public static Random _random = new Random();
 
 	public static byte[] bytes;
@@ -34,9 +36,14 @@ public static class Rand
 		return result;
 	}
 
+	public static void SetBaseSeed(int a = -1)
+	{
+		baseSeed = a;
+	}
+
 	public static void SetSeed(int a = -1)
 	{
-		_random = ((a == -1) ? new Random() : new Random(a));
+		_random = ((a != -1) ? new Random(a) : ((baseSeed == -1) ? new Random() : new Random(baseSeed)));
 	}
 
 	public static int Range(int min, int max)
