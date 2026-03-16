@@ -1163,6 +1163,26 @@ public class Zone : Spatial, ICardParent, IInspect
 
 	public virtual void OnActivate()
 	{
+		if (!(id == "startVillage2"))
+		{
+			return;
+		}
+		if (EClass._map.version.IsBelow(0, 23, 226))
+		{
+			SetBGM(121, refresh: false);
+		}
+		int num = 0;
+		foreach (Chara chara in EClass._map.charas)
+		{
+			if (chara.id == "cat_silver" && !chara.IsPCFaction)
+			{
+				num++;
+			}
+		}
+		if (num > 0)
+		{
+			Msg.Say("num_silvercat", num.ToString() ?? "");
+		}
 	}
 
 	public virtual void OnBeforeDeactivate()

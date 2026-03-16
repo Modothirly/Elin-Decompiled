@@ -135,5 +135,8 @@ public enum EffectId
 	GravityGun = 311,
 	TransBlood = 312,
 	Field = 313,
-	SilverCatMigration = 314
+	SilverCatMigration = 314,
+	ChangeRarity = 315,
+	ChangeAlias = 316,
+	ChangeBiography = 317
 }

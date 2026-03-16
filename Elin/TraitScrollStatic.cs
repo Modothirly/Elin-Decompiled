@@ -16,7 +16,17 @@ public class TraitScrollStatic : TraitScroll
 
 	public virtual EffectId idEffect => owner.sourceCard.vals[1].ToEnum<EffectId>();
 
-	public virtual int Power => int.Parse(owner.sourceCard.vals[2]);
+	public virtual int Power
+	{
+		get
+		{
+			if (owner.sourceCard.vals.Length <= 2)
+			{
+				return 100;
+			}
+			return int.Parse(owner.sourceCard.vals[2]);
+		}
+	}
 
 	public virtual string AliasEle => owner.sourceCard.vals.TryGet(3, returnNull: true);
 

@@ -8,7 +8,7 @@ public class TraitKeeperOfGarden : TraitUniqueChara
 	{
 		get
 		{
-			if (!(EClass._zone is Zone_EternalGarden) && !EClass.game.IsSurvival)
+			if (!(EClass._zone.id == "startVillage2") && !EClass.game.IsSurvival)
 			{
 				return ShopType.None;
 			}

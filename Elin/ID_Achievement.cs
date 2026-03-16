@@ -23,5 +23,6 @@ public enum ID_Achievement
 	ONEV,
 	JURE,
 	BELL,
-	NERUN2
+	NERUN2,
+	OYS
 }

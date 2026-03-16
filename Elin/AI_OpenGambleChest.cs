@@ -56,7 +56,7 @@ public class AI_OpenGambleChest : AIAct
 				{
 					owner.PlaySound("money");
 					owner.PlayAnime(AnimeID.Jump);
-					Thing thing = ThingGen.Create("money").SetNum(EClass.rndHalf(50 * (100 + Mathf.Min(target.c_lockLv, 10000000) * 10)));
+					Thing thing = ThingGen.Create("money").SetNum(EClass.rndHalf(50 * (100 + Mathf.Min(target.c_lockLv * 10, 10000000))));
 					owner.Pick(thing, msg: false);
 					owner.Say("gambleChest_win", thing);
 				}

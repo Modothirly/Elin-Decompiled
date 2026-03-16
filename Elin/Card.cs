@@ -7601,6 +7601,8 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 					return LV / 8;
 				case "372":
 					return 3;
+				case "hammer_garokk":
+					return 100;
 				case "scroll_random":
 					if (refVal == 8288)
 					{

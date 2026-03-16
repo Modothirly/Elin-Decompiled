@@ -1073,7 +1073,7 @@ public class FactionBranch : EClass
 					num5 = num6;
 				}
 			}
-			int num7 = (int)((isWealthy ? 50 : 10) + (long)member.LV * 2L) * num5 / 100 * num4 / 100;
+			int num7 = (int)(((isWealthy ? 50 : 10) + (long)member.LV * 2L) * num5 / 100 * num4 / 100);
 			if (isWealthy && num2 > 0)
 			{
 				num7 = num7 * (150 + (int)Mathf.Sqrt(num2) * 5) / 100;

@@ -816,7 +816,7 @@ public class DramaManager : EMono
 		case "getAchievement":
 			AddEvent(delegate
 			{
-				if (new string[1] { "ONEV" }.Contains(p2))
+				if (new string[2] { "ONEV", "NERUN2" }.Contains(p2))
 				{
 					Steam.GetAchievement(p2.ToEnum<ID_Achievement>());
 				}

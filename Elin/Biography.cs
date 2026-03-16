@@ -395,11 +395,16 @@ public class Biography : EClass
 		GenerateAppearance(c);
 		if (!keepParent)
 		{
-			GenerateDad();
-			GenerateMom();
-			idHome = RndBio("home");
-			idLoc = RndBio("loc");
+			RerollParents();
 		}
+	}
+
+	public void RerollParents()
+	{
+		GenerateDad();
+		GenerateMom();
+		idHome = RndBio("home");
+		idLoc = RndBio("loc");
 	}
 
 	public void GenerateBirthday(Chara c, int ageIndex = 0)

@@ -1,5 +1,11 @@
 public class CardBlueprint : EClass
 {
+	public enum Generation
+	{
+		Default,
+		GarokkHammer
+	}
+
 	public int lv = -999;
 
 	public int qualityBonus;
@@ -21,6 +27,8 @@ public class CardBlueprint : EClass
 	public bool fixedQuality;
 
 	public bool isCraft;
+
+	public Generation generation;
 
 	public static CardBlueprint current;
 

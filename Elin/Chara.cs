@@ -1904,6 +1904,11 @@ public class Chara : Card, IPathfindWalker
 
 	public void RefreshSpeed(Element.BonusInfo info = null)
 	{
+		if (currentZone != EClass._zone)
+		{
+			dirtySpeed = true;
+			return;
+		}
 		if (ride != null && !ride.IsDeadOrSleeping)
 		{
 			ride.RefreshSpeed();
@@ -4967,7 +4972,7 @@ public class Chara : Card, IPathfindWalker
 		case "mad_rich":
 			if (onCreate)
 			{
-				int a = EClass.rndHalf(100 + (EClass.debug.enable ? 10 : EClass._zone.influence) * 50 + (int)Mathf.Sqrt(EClass._zone.DangerLv) * 100 + (int)Mathf.Sqrt(EClass.pc.FameLv) * 100 + EClass._zone.development * 10);
+				int a = (EClass._zone.IsUserZone ? 200 : EClass.rndHalf(100 + (EClass.debug.enable ? 10 : EClass._zone.influence) * 50 + (int)Mathf.Sqrt(EClass._zone.DangerLv) * 100 + (int)Mathf.Sqrt(EClass.pc.FameLv) * 100 + EClass._zone.development * 10));
 				ModCurrency(a);
 			}
 			break;
@@ -6416,6 +6421,10 @@ public class Chara : Card, IPathfindWalker
 
 	public void Slap(Chara c, bool slapToDeath = false)
 	{
+		if (id == "olderyoungersister")
+		{
+			Steam.GetAchievement(ID_Achievement.OYS);
+		}
 		PlaySound("whip");
 		Say("slap", this, c);
 		c.PlayAnime(AnimeID.Shiver);

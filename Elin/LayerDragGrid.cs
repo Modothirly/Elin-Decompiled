@@ -509,6 +509,18 @@ public class LayerDragGrid : LayerBaseCraft
 		});
 	}
 
+	public static LayerDragGrid CreateChangeRarity(Chara cc, Thing consume, EffectId idEffect, BlessedState state = BlessedState.Normal, int price = 0, int count = 1)
+	{
+		return TryProc(cc, new InvOwnerChangeRarity
+		{
+			consume = consume,
+			state = state,
+			price = price,
+			count = count,
+			idEffect = idEffect
+		});
+	}
+
 	public static LayerDragGrid CreateUncurse(Chara cc, BlessedState state = BlessedState.Normal, int price = 0, int count = 1)
 	{
 		return TryProc(cc, new InvOwnerUncurse
