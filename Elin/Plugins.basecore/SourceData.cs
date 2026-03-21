@@ -690,9 +690,9 @@ public class SourceData : ScriptableObject
 					continue;
 				}
 				string text3 = text2[..^3];
-				if (rowFields.TryGetValue(text3, out var value) && rowFields.ContainsKey(text3 + "_L"))
+				if (rowFields.TryGetValue(text3, out var value) && rowFields.TryGetValue(text3 + "_L", out var value2))
 				{
-					string text4 = GetFieldText(jp2, value);
+					string text4 = GetFieldText(jp2, value, value2);
 					if (!text4.IsEmpty())
 					{
 						sortedDictionary[$"{name}.{obj}.{text3}"] = text4;
@@ -700,24 +700,21 @@ public class SourceData : ScriptableObject
 				}
 			}
 			return sortedDictionary;
-			string GetFieldText(FieldInfo jp, FieldInfo en)
+			string GetFieldText(FieldInfo jp, FieldInfo en, FieldInfo l)
 			{
-				object obj2 = jp.GetValue(this);
-				object obj3 = en.GetValue(this);
-				if (!Lang.isJP)
+				object value3 = jp.GetValue(this);
+				object value4 = en.GetValue(this);
+				object value5 = l.GetValue(this);
+				string langCode = Lang.langCode;
+				object obj2 = ((langCode == "JP") ? value3 : ((!(langCode == "EN")) ? (value5 ?? value4) : value4));
+				object obj3 = obj2;
+				if (obj3 is string str)
 				{
-					object obj4 = obj2;
-					object obj5 = obj3;
-					obj3 = obj4;
-					obj2 = obj5;
+					return str.IsEmpty(value4 as string);
 				}
-				if (obj2 is string str)
+				if (obj3 is string[] array)
 				{
-					return str.IsEmpty(obj3 as string);
-				}
-				if (obj2 is string[] array)
-				{
-					return string.Join(',', (array.Length != 0) ? array : (obj3 as string[]));
+					return string.Join(',', (array.Length != 0) ? array : (value4 as string[]));
 				}
 				return null;
 			}
