@@ -26,11 +26,15 @@ public static class MathEx
 		return (int)a;
 	}
 
-	public static int Min(long a, int b = int.MaxValue)
+	public static int ClampToInt(long a, int b = int.MaxValue)
 	{
 		if (a > b)
 		{
 			return b;
+		}
+		if (a < -b)
+		{
+			return -b;
 		}
 		return (int)a;
 	}
