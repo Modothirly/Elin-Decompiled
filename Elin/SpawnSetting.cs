@@ -90,6 +90,16 @@ public class SpawnSetting
 		};
 	}
 
+	public static SpawnSetting TravelMerchant(string id, int fixedLv = -1)
+	{
+		return new SpawnSetting
+		{
+			id = id,
+			rarity = Rarity.Legendary,
+			fixedLv = fixedLv
+		};
+	}
+
 	public static SpawnSetting HomeWild(int lv)
 	{
 		return new SpawnSetting

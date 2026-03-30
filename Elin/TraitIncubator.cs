@@ -17,4 +17,6 @@ public class TraitIncubator : TraitCrafter
 	public override bool AutoToggle => false;
 
 	public override bool CanUseFromInventory => false;
+
+	public override bool IsHomeItem => true;
 }

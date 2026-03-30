@@ -1674,10 +1674,11 @@ public class Trait : EClass
 			};
 			foreach (string id2 in array)
 			{
-				AddThing(ThingGen.Create(id2, MATERIAL.GetRandomMaterialFromCategory(50, "rock", EClass.sources.materials.alias["granite"]).id).SetNum(10));
+				AddThing(ThingGen.Create(id2, MATERIAL.GetRandomMaterialFromCategory(50, "rock", EClass.sources.materials.alias["granite"]).id).SetNum(99));
 			}
-			Add("scroll_alias", 10, 0);
-			Add("scroll_biography", 10, 0);
+			Add("cloud", 99, 0);
+			Add("scroll_alias", 99, 0);
+			Add("scroll_biography", 99, 0);
 			Add("1329", 1, 0);
 			break;
 		}
@@ -1914,6 +1915,10 @@ public class Trait : EClass
 						break;
 					case ShopType.StrangeGirl:
 						num3 = 50;
+						break;
+					case ShopType.TravelMerchant:
+						num2 /= 3f;
+						num3 = 30;
 						break;
 					}
 					num2 = num2 * (float)(100 + EClass.pc.Evalue(1406) * 5) / 100f;
@@ -2152,6 +2157,10 @@ public class Trait : EClass
 					{
 						thing11.c_priceFix = -70;
 					}
+					if (ShopType == ShopType.TravelMerchant)
+					{
+						thing11.c_priceFix = 200;
+					}
 					if (thing11.trait is TraitErohon)
 					{
 						thing11.c_IDTState = 5;
@@ -2185,12 +2194,9 @@ public class Trait : EClass
 				}
 				void AddAdvWeek(int i)
 				{
-					if (i != 18)
-					{
-						Thing thing7 = ThingGen.CreateRedBook("advweek_" + i);
-						thing7.c_priceFix = -90;
-						AddThing(thing7);
-					}
+					Thing thing7 = ThingGen.CreateRedBook("advweek_" + i);
+					thing7.c_priceFix = -90;
+					AddThing(thing7);
 				}
 				void AddCassette(int idCas, string idQuest, int phase)
 				{
@@ -2312,8 +2318,13 @@ public class Trait : EClass
 					return FromFilter("shop_gun");
 				case ShopType.Blackmarket:
 				case ShopType.Exotic:
+				case ShopType.TravelMerchant:
 				{
 					int num = 30;
+					if (ShopType == ShopType.TravelMerchant)
+					{
+						num = 5;
+					}
 					if (Guild.Thief.IsCurrentZone)
 					{
 						num = 25;
@@ -2321,10 +2332,6 @@ public class Trait : EClass
 					if (Guild.Merchant.IsCurrentZone)
 					{
 						num = 15;
-					}
-					if (EClass.debug.enable)
-					{
-						num = 1;
 					}
 					CardBlueprint.SetRarity((EClass.rnd(num * 5) == 0) ? Rarity.Mythical : ((EClass.rnd(num) == 0) ? Rarity.Legendary : ((EClass.rnd(5) == 0) ? Rarity.Superior : Rarity.Normal)));
 					return FromFilter("shop_blackmarket");

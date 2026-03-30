@@ -1695,7 +1695,10 @@ public class Zone : Spatial, ICardParent, IInspect
 				}
 			}
 		}
-		base.isPeace = false;
+		if (!EClass.player.simulatingZone)
+		{
+			base.isPeace = false;
+		}
 		OnBeforeDeactivate();
 		if (IsPCFaction)
 		{

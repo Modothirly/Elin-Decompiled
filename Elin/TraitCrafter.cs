@@ -563,7 +563,7 @@ public class TraitCrafter : Trait
 				return false;
 			}, _t, CursorSystem.Craft);
 		}
-		else
+		else if (!(this is TraitIncubator) || EClass._zone.IsPCFactionOrTent)
 		{
 			p.TrySetAct(CrafterTitle, delegate
 			{

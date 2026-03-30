@@ -2958,11 +2958,7 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 		string str = c_idTrait;
 		if (str.IsEmpty())
 		{
-			if (sourceCard.trait.IsEmpty())
-			{
-				trait = (isChara ? new TraitChara() : new Trait());
-			}
-			else
+			if (!sourceCard.trait.IsEmpty())
 			{
 				trait = ClassCache.Create<Trait>("Trait" + sourceCard.trait[0], "Elin");
 			}
@@ -2970,6 +2966,10 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 		else
 		{
 			trait = ClassCache.Create<Trait>(str, "Elin");
+		}
+		if (trait == null)
+		{
+			trait = (isChara ? new TraitChara() : new Trait());
 		}
 		trait.SetOwner(this);
 	}

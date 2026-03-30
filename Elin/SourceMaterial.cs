@@ -131,6 +131,7 @@ public class SourceMaterial : SourceDataInt<SourceMaterial.Row>
 						}
 					}
 				}
+				Core.Instance.Colors.matColors[alias] = matColors;
 			}
 			matColor = matColors.main;
 			altColor = matColors.alt;

@@ -26,7 +26,7 @@ public class TraitPaintBoard : TraitItem
 
 	public override void TrySetAct(ActPlan p)
 	{
-		if (!EClass.debug.enable && (!EClass._zone.IsPCFaction || !p.altAction))
+		if (!EClass.debug.enable && (!EClass._zone.IsPCFactionOrTent || !p.altAction))
 		{
 			return;
 		}

@@ -361,7 +361,8 @@ public class Region : Zone
 			{
 				ShouldPass = (SourceChara.Row s) => s.biome == biome.name || s.biome.IsEmpty()
 			}) : SpawnList.Get(biome.spawn.GetRandomCharaId()));
-			Chara chara = CharaGen.CreateFromFilter(list, regionPoint.dangerLv);
+			Chara chara = null;
+			chara = ((EClass.rnd(EClass.debug.enable ? 2 : 50) != 0) ? CharaGen.CreateFromFilter(list, regionPoint.dangerLv) : CharaGen.Create("merchant_travel"));
 			if (chara != null && !(chara.trait is TraitUniqueMonster))
 			{
 				AddCard(chara, randomPoint);

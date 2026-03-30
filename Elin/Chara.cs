@@ -5993,9 +5993,11 @@ public class Chara : Card, IPathfindWalker
 		{
 			if (!Dialog.warned && cost.type == Act.CostType.MP && cost.cost > 0 && mana.value < num6 && !EClass.debug.godMode)
 			{
+				Card cardBk = EClass.scene.mouseTarget.card;
 				ActPlan.warning = true;
 				Dialog.TryWarnMana(delegate
 				{
+					EClass.scene.mouseTarget.card = cardBk;
 					if (UseAbility(a, tc, pos, pt))
 					{
 						EClass.player.EndTurn();

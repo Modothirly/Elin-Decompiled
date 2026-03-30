@@ -18,86 +18,117 @@ public class ZonePreEnterEncounter : ZonePreEnterEvent
 		{
 			List<Chara> list = new List<Chara>();
 			Chara leader = null;
-			float num = Mathf.Clamp(EClass.pc.FameLv + 8, 8f, 24f + Mathf.Sqrt(EClass.pc.FameLv));
-			for (int i = 0; i < EClass.rndHalf((int)num); i++)
+			if (mob.id == "merchant_travel")
 			{
+				lv = Mathf.Max(20, EClass.pc.FameLv * 5);
 				Point randomPointInRadius = EClass.pc.pos.GetRandomPointInRadius(2, 5, requireLos: false, allowChara: false);
-				if (randomPointInRadius != null)
+				for (int i = 0; i < EClass.rndHalf(12); i++)
 				{
-					Chara chara = EClass._zone.SpawnMob(randomPointInRadius, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3)));
-					Hostility hostility2 = (chara.c_originalHostility = Hostility.Enemy);
-					chara.hostility = hostility2;
-					chara.enemy = EClass.pc.party.members.RandomItem();
-					leader = chara;
-					if (EClass.rnd(5) == 0)
+					Point randomPointInRadius2 = randomPointInRadius.GetRandomPointInRadius(1, 4, requireLos: false, allowChara: false);
+					if (randomPointInRadius2 != null)
 					{
-						TraitFoodEggFertilized.MakeBaby(chara, 1);
+						Chara chara = null;
+						if (i == 0)
+						{
+							chara = (leader = EClass._zone.SpawnMob(randomPointInRadius2, SpawnSetting.TravelMerchant(mob.id, lv)));
+						}
+						else
+						{
+							string[] source = new string[5] { "merc", "merc_archer", "merc_mage", "merc_warrior", "dog_hound" };
+							chara = EClass._zone.SpawnMob(randomPointInRadius2, SpawnSetting.Mob(source.RandomItem(), null, lv));
+							Chara chara2 = chara;
+							Hostility hostility2 = (chara.c_originalHostility = Hostility.Neutral);
+							chara2.hostility = hostility2;
+							chara.MakeMinion(leader);
+						}
+						list.Add(chara);
 					}
-					list.Add(chara);
 				}
+				leader.ShowDialog();
 			}
-			if (leader != null)
+			else
 			{
-				List<Thing> list2 = EClass.pc.things.List(delegate(Thing t)
+				float num = Mathf.Clamp(EClass.pc.FameLv + 8, 8f, 24f + Mathf.Sqrt(EClass.pc.FameLv));
+				for (int j = 0; j < EClass.rndHalf((int)num); j++)
 				{
-					if (t.Num >= 10)
+					Point randomPointInRadius3 = EClass.pc.pos.GetRandomPointInRadius(2, 5, requireLos: false, allowChara: false);
+					if (randomPointInRadius3 != null)
 					{
-						return false;
-					}
-					return t.trait.CanBeDestroyed && t.things.Count == 0 && t.invY != 1 && t.trait.CanBeStolen && !t.trait.CanOnlyCarry && !t.IsUnique && !t.isEquipped;
-				}, onlyAccessible: true);
-				Thing t2 = ((list2.Count > 0) ? list2.RandomItem() : null);
-				if (t2 == null)
-				{
-					GameLang.refDrama1 = (GameLang.refDrama2 = "mobPity".lang());
-				}
-				else
-				{
-					GameLang.refDrama1 = t2.NameSimple;
-					GameLang.refDrama2 = t2.Name;
-				}
-				LayerDrama.refAction1 = delegate
-				{
-					foreach (Chara item in list)
-					{
-						item.ShowEmo(Emo.angry);
-						if (EClass.rnd(6) == 0)
+						Chara chara3 = EClass._zone.SpawnMob(randomPointInRadius3, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3)));
+						Hostility hostility2 = (chara3.c_originalHostility = Hostility.Enemy);
+						chara3.hostility = hostility2;
+						chara3.enemy = EClass.pc.party.members.RandomItem();
+						leader = chara3;
+						if (EClass.rnd(5) == 0)
 						{
-							item.Talk((EClass.rnd(5) == 0) ? "rumor_bad" : ((EClass.rnd(5) == 0) ? "callGuards" : "disgust"));
+							TraitFoodEggFertilized.MakeBaby(chara3, 1);
 						}
+						list.Add(chara3);
 					}
-				};
-				LayerDrama.refAction2 = delegate
+				}
+				if (leader != null)
 				{
-					if (t2 != null)
+					List<Thing> list2 = EClass.pc.things.List(delegate(Thing t)
 					{
-						leader.AddCard(t2);
-					}
-					foreach (Chara item2 in list)
-					{
-						if (EClass.rnd(6) == 0)
+						if (t.Num >= 10)
 						{
-							item2.Talk((EClass.rnd(5) == 0) ? "rumor_good" : ((EClass.rnd(3) == 0) ? "thanks3" : "thanks"));
+							return false;
 						}
-						item2.ShowEmo(Emo.happy);
-						Hostility hostility5 = (item2.c_originalHostility = Hostility.Neutral);
-						item2.hostility = hostility5;
-						item2.enemy = null;
+						return t.trait.CanBeDestroyed && t.things.Count == 0 && t.invY != 1 && t.trait.CanBeStolen && !t.trait.CanOnlyCarry && !t.IsUnique && !t.isEquipped;
+					}, onlyAccessible: true);
+					Thing t2 = ((list2.Count > 0) ? list2.RandomItem() : null);
+					if (t2 == null)
+					{
+						GameLang.refDrama1 = (GameLang.refDrama2 = "mobPity".lang());
 					}
-					EClass.player.ModKarma(1);
-				};
-				leader.ShowDialog("_chara", "encounter_mob");
+					else
+					{
+						GameLang.refDrama1 = t2.NameSimple;
+						GameLang.refDrama2 = t2.Name;
+					}
+					LayerDrama.refAction1 = delegate
+					{
+						foreach (Chara item in list)
+						{
+							item.ShowEmo(Emo.angry);
+							if (EClass.rnd(6) == 0)
+							{
+								item.Talk((EClass.rnd(5) == 0) ? "rumor_bad" : ((EClass.rnd(5) == 0) ? "callGuards" : "disgust"));
+							}
+						}
+					};
+					LayerDrama.refAction2 = delegate
+					{
+						if (t2 != null)
+						{
+							leader.AddCard(t2);
+						}
+						foreach (Chara item2 in list)
+						{
+							if (EClass.rnd(6) == 0)
+							{
+								item2.Talk((EClass.rnd(5) == 0) ? "rumor_good" : ((EClass.rnd(3) == 0) ? "thanks3" : "thanks"));
+							}
+							item2.ShowEmo(Emo.happy);
+							Hostility hostility6 = (item2.c_originalHostility = Hostility.Neutral);
+							item2.hostility = hostility6;
+							item2.enemy = null;
+						}
+						EClass.player.ModKarma(1);
+					};
+					leader.ShowDialog("_chara", "encounter_mob");
+				}
 			}
 		}
 		else
 		{
-			for (int j = 0; j < enemies; j++)
+			for (int k = 0; k < enemies; k++)
 			{
 				Point nearestPoint = (EClass.pc.pos.GetRandomPoint(4) ?? EClass.pc.pos).GetNearestPoint(allowBlock: false, allowChara: false);
-				Chara chara2 = EClass._zone.SpawnMob(nearestPoint, SpawnSetting.Encounter(lv));
-				Hostility hostility2 = (chara2.c_originalHostility = Hostility.Enemy);
-				chara2.hostility = hostility2;
-				chara2.enemy = EClass.pc.party.members.RandomItem();
+				Chara chara4 = EClass._zone.SpawnMob(nearestPoint, SpawnSetting.Encounter(lv));
+				Hostility hostility2 = (chara4.c_originalHostility = Hostility.Enemy);
+				chara4.hostility = hostility2;
+				chara4.enemy = EClass.pc.party.members.RandomItem();
 			}
 		}
 		if (flag && EClass.rnd(EClass.debug.enable ? 1 : 3) == 0)
