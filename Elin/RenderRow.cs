@@ -270,16 +270,38 @@ public class RenderRow : SourceData.BaseRow, IRenderSource
 
 	public Sprite GetSprite(int dir = 0, int skin = 0, bool snow = false)
 	{
+		bool flag = this is SourceChara.Row;
 		if (replacer.HasSprite(idSprite, renderData))
 		{
-			return replacer.data.GetSprite(snow);
+			foreach (string item in new List<string>
+			{
+				$"_skin{skin}_dir{dir}",
+				$"_skin{skin}",
+				$"_dir{dir}",
+				""
+			})
+			{
+				Sprite sprite = null;
+				if (snow)
+				{
+					sprite = replacer.GetSprite(item + "_snow");
+				}
+				if ((object)sprite == null)
+				{
+					sprite = replacer.GetSprite(item);
+				}
+				if ((bool)sprite)
+				{
+					return sprite;
+				}
+			}
 		}
 		int[] array = null ?? _tiles;
 		if (sprites == null)
 		{
 			sprites = new Sprite[(skins == null) ? 1 : (skins.Length + 1), (array.Length == 0) ? 1 : array.Length];
 		}
-		if (this is SourceChara.Row)
+		if (flag)
 		{
 			dir = skin;
 			skin = 0;

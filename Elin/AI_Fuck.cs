@@ -17,7 +17,8 @@ public class AI_Fuck : AIAct
 		NTR,
 		Bloodsuck,
 		Slime,
-		Tentacle
+		Tentacle,
+		MotherMilk
 	}
 
 	public Variation variation;
@@ -142,6 +143,7 @@ public class AI_Fuck : AIAct
 			switch (Type)
 			{
 			case FuckType.fuck:
+			{
 				if (this.variation == Variation.NTR)
 				{
 					cc.Say("ntr", cc, tc);
@@ -154,18 +156,31 @@ public class AI_Fuck : AIAct
 					cc.renderer.PlayAnime(AnimeID.Attack, tc);
 					if (EClass.rnd(3) == 0 || sell)
 					{
-						cc.Talk("tail");
+						if (cc.IsPC && this.variation == Variation.MotherMilk)
+						{
+							EClass.player.forceTalk = true;
+						}
+						cc.Talk((this.variation == Variation.MotherMilk) ? "play_baby" : "tail");
 					}
 					break;
 				case 2:
 					tc.renderer.PlayAnime(AnimeID.Shiver);
 					if (EClass.rnd(3) == 0)
 					{
-						tc.Talk("tailed");
+						if (tc.IsPC && this.variation == Variation.MotherMilk)
+						{
+							EClass.player.forceTalk = true;
+						}
+						tc.Talk((this.variation == Variation.MotherMilk) ? "play_mama" : "tailed");
 					}
 					break;
 				}
-				if (((cc.HasElement(1216) || tc.HasElement(1216)) ? 100 : 20) > EClass.rnd(100))
+				int num5 = ((cc.HasElement(1216) || tc.HasElement(1216)) ? 100 : 20);
+				if (this.variation == Variation.MotherMilk)
+				{
+					num5 *= 5;
+				}
+				if (num5 > EClass.rnd(100))
 				{
 					((EClass.rnd(2) == 0) ? cc : tc).PlayEffect("love2");
 				}
@@ -189,6 +204,7 @@ public class AI_Fuck : AIAct
 					owner.pos.TryWitnessCrime(cc, tc, 4, (Chara c) => EClass.rnd(cc.HasCondition<ConTransmuteBat>() ? 50 : 20) == 0);
 				}
 				break;
+			}
 			case FuckType.tame:
 			{
 				int num = 100;

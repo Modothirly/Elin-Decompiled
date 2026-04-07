@@ -20,7 +20,7 @@ public class TraitMerchantTravel : TraitMerchant
 			{
 				return base.ShopLv;
 			}
-			return EClass.pc.FameLv * 2 + 10;
+			return EClass.pc.FameLv + EClass.pc.FameLv / 2 + 10;
 		}
 	}
 

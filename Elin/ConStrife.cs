@@ -5,7 +5,7 @@ using UnityEngine;
 public class ConStrife : BaseBuff
 {
 	[JsonProperty]
-	private ElementContainer ec = new ElementContainer();
+	private ElementContainer ec = new ElementContainerCondition();
 
 	[JsonProperty]
 	public int exp;
@@ -141,6 +141,10 @@ public class ConStrife : BaseBuff
 		list.Add("hintStrife2".lang((lv * 10).ToString() ?? "", (lv * 5).ToString() ?? "").TagColorGoodBad(() => true));
 		foreach (Element e in ec.dict.Values)
 		{
+			if (e.Value == 0)
+			{
+				continue;
+			}
 			if (e.IsFlag)
 			{
 				list.Add(e.Name.TagColorGoodBad(() => e.Value >= 0));

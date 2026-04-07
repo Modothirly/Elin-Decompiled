@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using IniParser;
@@ -8,19 +7,15 @@ using UnityEngine;
 
 public class SpriteData
 {
-	public DateTime date;
-
-	public Texture2D tex;
-
-	public Texture2D texSnow;
+	public string id;
 
 	public string path;
 
+	public Texture2D tex;
+
 	public Sprite[] sprites;
 
-	public Sprite[] spritesSnow;
-
-	public SourcePref pref;
+	public DateTime date;
 
 	public int frame = 1;
 
@@ -28,31 +23,21 @@ public class SpriteData
 
 	public float time = 0.2f;
 
+	public SourcePref pref;
+
 	public void Init()
 	{
 		try
 		{
-			if (File.Exists(path + ".ini"))
-			{
-				IniData iniData = new FileIniDataParser().ReadFile(path + ".ini", Encoding.UTF8);
-				frame = int.Parse(iniData.GetKey("frame") ?? "1");
-				scale = int.Parse(iniData.GetKey("scale") ?? "50");
-				time = float.Parse(iniData.GetKey("time") ?? "0.2", CultureInfo.InvariantCulture);
-			}
+			id = Path.GetFileNameWithoutExtension(path);
+			LoadAnimationIni();
+			LoadPref();
 		}
-		catch (Exception message)
+		catch (Exception exception)
 		{
-			Debug.Log(message);
-			Debug.Log("exception: Failed to parse:" + path + ".ini");
-			time = 0.2f;
-			scale = 50;
+			Debug.LogException(exception);
+			Debug.LogError("#sprite failed to init '" + id + "' at " + path);
 		}
-	}
-
-	public Sprite[] GetSprites()
-	{
-		Validate();
-		return sprites;
 	}
 
 	public void LoadPref()
@@ -64,60 +49,74 @@ public class SpriteData
 		}
 	}
 
-	public Sprite GetSprite(bool snow = false)
+	public void LoadAnimationIni()
+	{
+		if (!File.Exists(path + ".ini"))
+		{
+			return;
+		}
+		try
+		{
+			IniData iniData = new FileIniDataParser().ReadFile(path + ".ini", Encoding.UTF8);
+			if (!int.TryParse(iniData.GetKey("frame") ?? "1", out frame))
+			{
+				frame = 1;
+			}
+			if (!int.TryParse(iniData.GetKey("scale") ?? "50", out scale))
+			{
+				scale = 50;
+			}
+			if (!float.TryParse(iniData.GetKey("time") ?? "0.2", out time))
+			{
+				time = 0.2f;
+			}
+		}
+		catch (Exception exception)
+		{
+			Debug.LogException(exception);
+			frame = 1;
+			scale = 50;
+			time = 0.2f;
+		}
+	}
+
+	public Sprite[] GetSprites()
 	{
 		Validate();
-		if (!snow || spritesSnow == null)
-		{
-			return sprites[0];
-		}
-		return spritesSnow[0];
+		return sprites;
+	}
+
+	public Sprite GetSprite()
+	{
+		Validate();
+		return sprites[0];
 	}
 
 	public void Validate()
 	{
 		DateTime lastWriteTime = File.GetLastWriteTime(path + ".png");
-		bool flag = date.Year != 1 && date == lastWriteTime;
-		if (!flag)
+		if (date.Year == 1 || !(date == lastWriteTime))
 		{
-			Load(flag, ref tex, ref sprites, "");
-			if (File.Exists(path + "_snow.png"))
-			{
-				Load(flag, ref texSnow, ref spritesSnow, "_snow");
-			}
+			Load();
 			date = lastWriteTime;
 		}
 	}
 
-	public void Load(bool dateMatched, ref Texture2D tex, ref Sprite[] sprites, string suffix)
+	public void Load()
 	{
-		if (dateMatched && (bool)tex)
-		{
-			return;
-		}
 		if ((bool)tex)
 		{
-			Texture2D texture2D = IO.LoadPNG(path + suffix + ".png");
-			if (texture2D.width != tex.width || texture2D.height != tex.height)
-			{
-				Debug.Log(texture2D.width + "/" + texture2D.height + "/" + path);
-				tex.Reinitialize(texture2D.width, texture2D.height);
-			}
-			tex.SetPixels32(texture2D.GetPixels32());
-			tex.Apply();
-			UnityEngine.Object.Destroy(texture2D);
+			UnityEngine.Object.Destroy(tex);
 		}
-		else
+		tex = IO.LoadPNG(path + ".png");
+		Debug.Log(tex.width + "/" + tex.height + "/" + path);
+		int num = tex.width / frame;
+		int height = tex.height;
+		sprites = new Sprite[frame];
+		Vector2 pivot = new Vector2(0.5f, 0.5f);
+		for (int i = 0; i < frame; i++)
 		{
-			tex = IO.LoadPNG(path + suffix + ".png");
-			int num = tex.width / frame;
-			int height = tex.height;
-			sprites = new Sprite[frame];
-			for (int i = 0; i < frame; i++)
-			{
-				sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), new Vector2(0.5f, 0.5f), 100f, 0u, SpriteMeshType.FullRect);
-			}
+			sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
 		}
-		LoadPref();
 	}
 }

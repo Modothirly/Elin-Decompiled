@@ -9,9 +9,11 @@ public class SpriteReplacer
 
 	public static Dictionary<string, string> dictModItems = new Dictionary<string, string>();
 
-	public bool isChecked;
-
 	public SpriteData data;
+
+	public Dictionary<string, SpriteData> suffixes = new Dictionary<string, SpriteData>();
+
+	public Dictionary<string, bool> isChecked = new Dictionary<string, bool>();
 
 	public static Dictionary<string, SpriteReplacer> ListSkins()
 	{
@@ -27,64 +29,91 @@ public class SpriteReplacer
 		{
 			dictSkins.Remove(item);
 		}
-		FileInfo[] files = new DirectoryInfo(CorePath.custom + "Skin").GetFiles();
+		FileInfo[] files = new DirectoryInfo(CorePath.custom + "Skin").GetFiles("*.png");
 		foreach (FileInfo fileInfo in files)
 		{
-			if (fileInfo.Extension == ".png")
+			string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+			if (!dictSkins.ContainsKey(fileNameWithoutExtension))
 			{
-				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileInfo.FullName);
-				if (!dictSkins.ContainsKey(fileNameWithoutExtension))
+				SpriteReplacer spriteReplacer = new SpriteReplacer();
+				spriteReplacer.data = new SpriteData
 				{
-					SpriteReplacer spriteReplacer = new SpriteReplacer();
-					spriteReplacer.data = new SpriteData
-					{
-						path = fileInfo.GetFullFileNameWithoutExtension()
-					};
-					spriteReplacer.data.Init();
-					dictSkins.Add(fileNameWithoutExtension, spriteReplacer);
-				}
+					path = fileInfo.GetFullFileNameWithoutExtension()
+				};
+				spriteReplacer.data.Init();
+				dictSkins.Add(fileNameWithoutExtension, spriteReplacer);
 			}
 		}
 		return dictSkins;
 	}
 
-	public bool HasSprite(string id, RenderData renderData = null)
+	public Sprite GetSprite(string suffix = "")
 	{
-		if (!isChecked)
+		if (!suffixes.TryGetValue(suffix, out var value))
 		{
-			try
+			return null;
+		}
+		return value.GetSprite();
+	}
+
+	public void Reload(string id, RenderData renderData = null)
+	{
+		data = null;
+		suffixes.Clear();
+		try
+		{
+			if (dictModItems.ContainsKey(id))
 			{
-				if (dictModItems.ContainsKey(id))
+				foreach (var (text3, path) in dictModItems)
 				{
-					Debug.Log(id + ":" + dictModItems[id]);
+					if (text3.StartsWith(id))
+					{
+						string text4 = text3[id.Length..];
+						SpriteData spriteData = new SpriteData
+						{
+							path = path
+						};
+						spriteData.Init();
+						suffixes[text4] = spriteData;
+						Debug.Log("#sprite replacer init '" + text4 + "' at " + path.ShortPath());
+					}
+				}
+				data = suffixes.TryGetValue("");
+			}
+			else
+			{
+				string text5 = CorePath.packageCore + "Texture/Item/" + id;
+				if (!File.Exists(text5 + ".png") && renderData != null)
+				{
+					text5 = CorePath.packageCore + "Texture/Item/" + renderData.name;
+				}
+				if (File.Exists(text5 + ".png"))
+				{
 					data = new SpriteData
 					{
-						path = dictModItems[id]
+						path = text5
 					};
 					data.Init();
+					suffixes[""] = data;
 				}
-				else
-				{
-					string text = CorePath.packageCore + "Texture/Item/" + id;
-					if (!File.Exists(text + ".png") && renderData != null)
-					{
-						text = CorePath.packageCore + "Texture/Item/" + renderData.name;
-					}
-					if (File.Exists(text + ".png"))
-					{
-						data = new SpriteData
-						{
-							path = text
-						};
-						data.Init();
-					}
-				}
-				isChecked = true;
 			}
-			catch (Exception ex)
+			if (data != null)
 			{
-				Debug.Log("Error during fetching spirte:" + ex);
+				Debug.Log(id + ":" + data.path);
 			}
+		}
+		catch (Exception ex)
+		{
+			Debug.LogError("#sprite error fetching sprite replacer:" + ex);
+		}
+		isChecked[id] = true;
+	}
+
+	public bool HasSprite(string id, RenderData renderData = null)
+	{
+		if (!isChecked.GetValueOrDefault(id) || (data != null && data.id != id))
+		{
+			Reload(id, renderData);
 		}
 		return data != null;
 	}

@@ -208,6 +208,11 @@ public class DramaCustomSequence : EClass
 				{
 					Choice2(flag2 ? "daBird" : "daTail", "_tail");
 				}
+				ConTransmuteHuman condition = EClass.pc.GetCondition<ConTransmuteHuman>();
+				if (condition != null && condition.IsBaby)
+				{
+					Choice2("daMama", "_mama");
+				}
 				if (c.trait.CanRevive)
 				{
 					Choice2("daRevive", "_revive").DisableSound();
@@ -820,6 +825,24 @@ public class DramaCustomSequence : EClass
 				});
 			});
 			Choice("no2", StepDefault, cancel: true).SetOnClick(RumorChill);
+		});
+		Step("_mama");
+		Method(delegate
+		{
+			if (c.affinity.CanBecomeMama() || EClass.debug.enable)
+			{
+				TempTalkTopic("mama_yes", StepEnd);
+				EClass.pc.SetAI(new AI_Fuck
+				{
+					target = c,
+					variation = AI_Fuck.Variation.MotherMilk
+				});
+			}
+			else
+			{
+				TempTalkTopic("mama_no", StepDefault);
+				RumorChill();
+			}
 		});
 		Step("_whore");
 		Method(delegate

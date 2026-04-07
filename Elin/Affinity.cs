@@ -62,6 +62,11 @@ public class Affinity : EClass
 		return true;
 	}
 
+	public bool CanBecomeMama()
+	{
+		return CurrentStage >= Stage.Respected;
+	}
+
 	public bool CanGiveCard()
 	{
 		return CurrentStage >= Stage.Love;

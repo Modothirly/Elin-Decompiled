@@ -6852,11 +6852,12 @@ public class Chara : Card, IPathfindWalker
 			pCC.Build();
 			return pCC.variation.idle[0, 0];
 		}
-		if (spriteReplacer != null)
+		int skin = 0;
+		if (sourceCard.tiles.Length > 1)
 		{
-			return spriteReplacer.data.GetSprite();
+			skin = ((base.idSkin == 0 && !source.staticSkin) ? (base.uid % sourceCard.tiles.Length / 2 * 2 + ((!base.IsMale) ? 1 : 0)) : base.idSkin);
 		}
-		return sourceCard.GetSprite(0, (sourceCard._tiles.Length > 1) ? ((base.idSkin != 0 || source.staticSkin) ? base.idSkin : (base.uid % sourceCard._tiles.Length / 2 * 2 + ((!base.IsMale) ? 1 : 0))) : 0);
+		return sourceCard.GetSprite(0, skin, EClass.core.IsGameStarted && EClass._zone.IsSnowCovered);
 	}
 
 	public void SetTempHand(int right = 0, int left = 0)
@@ -7104,7 +7105,8 @@ public class Chara : Card, IPathfindWalker
 
 	public string GetTopicText(string topic = "calm")
 	{
-		string key = source.idText.IsEmpty(id);
+		ConTransmuteHuman condition = GetCondition<ConTransmuteHuman>();
+		string key = ((condition == null) ? source : condition.chara.source).idText.IsEmpty((condition == null) ? id : condition.chara.id);
 		if (id == "littleOne" && EClass._zone is Zone_LittleGarden)
 		{
 			key = "littleOne2";

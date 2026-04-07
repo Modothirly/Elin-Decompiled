@@ -199,25 +199,30 @@ public class CardActor : Actor
 			mpb2.SetFloat("_Liquid", destLiquid);
 			sr2.SetPropertyBlock(mpb2);
 		}
-		if (owner.sourceCard.replacer.data == null)
+		SpriteReplacer replacer = owner.sourceCard.replacer;
+		if (!replacer.HasSprite(owner.sourceCard.idSprite, data))
 		{
 			return;
 		}
-		SpriteData data2 = owner.sourceCard.replacer.data;
-		if (data2.frame <= 1)
+		SpriteData spriteData = replacer.data;
+		if (p.snow && replacer.suffixes.TryGetValue("_snow", out var value))
+		{
+			spriteData = value;
+		}
+		if (spriteData.frame <= 1)
 		{
 			return;
 		}
 		spriteTimer += Core.delta;
-		if (spriteTimer >= data2.time)
+		if (spriteTimer >= spriteData.time)
 		{
-			spriteTimer -= data2.time;
+			spriteTimer -= spriteData.time;
 			spriteIndex++;
-			if (spriteIndex >= data2.frame)
+			if (spriteIndex >= spriteData.frame)
 			{
 				spriteIndex = 0;
 			}
-			sr.sprite = ((data2.spritesSnow != null && p.snow) ? data2.spritesSnow[spriteIndex] : data2.sprites[spriteIndex]);
+			sr.sprite = spriteData.GetSprites()[spriteIndex];
 		}
 	}
 

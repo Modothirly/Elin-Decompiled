@@ -4374,10 +4374,13 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 			dmg = 0L;
 		}
 		long num9 = 99999999L;
-		ConStrife condition = GetCondition<ConStrife>();
-		if (condition != null)
+		if (origin != null && (attackSource == AttackSource.Melee || attackSource == AttackSource.Range))
 		{
-			num9 = num9 * (100 + condition.lv * 5) / 100;
+			ConStrife condition = origin.GetCondition<ConStrife>();
+			if (condition != null)
+			{
+				num9 = num9 * (100 + condition.lv * 5) / 100;
+			}
 		}
 		if (dmg > num9)
 		{
@@ -4495,7 +4498,7 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 								Chara.AddCondition<ConFractured>((int)Mathf.Max(10f, 30f - Mathf.Sqrt(Evalue(436))));
 								hp = Mathf.Min(half * (int)Mathf.Sqrt(Evalue(436) * 2) / 100, MaxHP / 3);
 							});
-							goto IL_1092;
+							goto IL_10b3;
 						}
 					}
 					if (zoneInstanceBout != null && (bool)LayerDrama.Instance)
@@ -4523,7 +4526,7 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 							if (EClass.player.invlunerable)
 							{
 								EvadeDeath(null);
-								goto IL_1092;
+								goto IL_10b3;
 							}
 						}
 						if (Evalue(1220) > 0 && Chara.stamina.value >= (IsPC ? (Chara.stamina.max / 2) : (Chara.stamina.max / 3 * 2)))
@@ -4541,8 +4544,8 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 				}
 			}
 		}
-		goto IL_1092;
-		IL_1092:
+		goto IL_10b3;
+		IL_10b3:
 		if (trait.CanBeAttacked)
 		{
 			renderer.PlayAnime(AnimeID.HitObj);
@@ -4907,33 +4910,37 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 		{
 			if (origin != null && origin.isChara && isChara && (weapon == null || !weapon.HasElement(486)))
 			{
-				int valueOrDefault = (origin.Evalue(662) + weapon?.Evalue(662, ignoreGlobalElement: true)).GetValueOrDefault();
-				int valueOrDefault2 = (origin.Evalue(661) + weapon?.Evalue(661, ignoreGlobalElement: true)).GetValueOrDefault();
-				if (valueOrDefault > 0 && attackSource == AttackSource.Melee && origin.isChara && !origin.Chara.ignoreSPAbsorb && Chara.IsHostile(origin as Chara))
+				int num18 = origin.Evalue(662) + (weapon?.Evalue(662, ignoreGlobalElement: true) ?? 0);
+				int num19 = origin.Evalue(661) + (weapon?.Evalue(661, ignoreGlobalElement: true) ?? 0);
+				if (num18 != 0)
 				{
-					int num18 = EClass.rnd(3 + (int)Mathf.Clamp(dmg / 100, 0f, valueOrDefault / 10));
-					origin.Chara.stamina.Mod(num18);
+					Debug.Log(num18);
+				}
+				if (num18 > 0 && attackSource == AttackSource.Melee && origin.isChara && !origin.Chara.ignoreSPAbsorb && Chara.IsHostile(origin as Chara))
+				{
+					int num20 = EClass.rnd(3 + (int)Mathf.Clamp(dmg / 100, 0f, num18 / 10));
+					origin.Chara.stamina.Mod(num20);
 					if (IsAliveInCurrentZone)
 					{
-						Chara.stamina.Mod(-num18);
+						Chara.stamina.Mod(-num20);
 					}
 				}
 				if (origin.HasElement(1350) && attackSource == AttackSource.Melee)
 				{
-					int num19 = EClass.rndHalf(2 + (int)Mathf.Clamp(dmg / 10, 0f, origin.Chara.GetPietyValue() + 10));
-					origin.Chara.mana.Mod(num19);
+					int num21 = EClass.rndHalf(2 + (int)Mathf.Clamp(dmg / 10, 0f, origin.Chara.GetPietyValue() + 10));
+					origin.Chara.mana.Mod(num21);
 					if (IsAliveInCurrentZone)
 					{
-						Chara.mana.Mod(-num19);
+						Chara.mana.Mod(-num21);
 					}
 				}
-				if (valueOrDefault2 > 0 && attackSource == AttackSource.Melee)
+				if (num19 > 0 && attackSource == AttackSource.Melee)
 				{
-					int num20 = EClass.rnd(2 + (int)Mathf.Clamp(dmg / 10, 0f, valueOrDefault2 + 10));
-					origin.Chara.mana.Mod(num20);
+					int num22 = EClass.rnd(2 + (int)Mathf.Clamp(dmg / 10, 0f, num19 + 10));
+					origin.Chara.mana.Mod(num22);
 					if (IsAliveInCurrentZone)
 					{
-						Chara.mana.Mod(-num20);
+						Chara.mana.Mod(-num22);
 					}
 				}
 			}
@@ -5486,7 +5493,7 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 						}
 					}
 				}
-				if (trait is TraitMerchantTravel)
+				if (trait is TraitMerchantTravel && !EClass._zone.IsFestival)
 				{
 					trait.OnBarter();
 					Thing thing4 = things.Find<TraitChestMerchant>();
@@ -6988,13 +6995,14 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 		GameLang.refDrama1 = ref1;
 		GameLang.refDrama2 = ref2;
 		string text = GetTalkText(idTopic, stripPun: true);
-		if (HasElement(1232) && idTopic != "baby")
+		ConTransmuteHuman condition = GetCondition<ConTransmuteHuman>();
+		if ((HasElement(1232) || (condition != null && condition.IsBaby)) && idTopic != "baby")
 		{
 			BackerContent.GakiConvert(ref text, "babu");
 		}
 		else
 		{
-			switch (id)
+			switch ((condition != null) ? condition.chara.id : id)
 			{
 			case "adv_gaki":
 				BackerContent.GakiConvert(ref text);
@@ -7118,7 +7126,8 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 	public string GetTalkText(string idTopic, bool stripPun = false, bool useDefault = true)
 	{
 		bool flag = isChara && Chara.IsHumanSpeak;
-		string text = MOD.listTalk.GetTalk(c_idTalk.IsEmpty(id), idTopic, useDefault, flag);
+		ConTransmuteHuman condition = GetCondition<ConTransmuteHuman>();
+		string text = MOD.listTalk.GetTalk((condition != null) ? condition.chara.id : c_idTalk.IsEmpty(id), idTopic, useDefault, flag);
 		if (!text.IsEmpty())
 		{
 			text = text.Split('|').RandomItem();

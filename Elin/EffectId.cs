@@ -138,5 +138,6 @@ public enum EffectId
 	SilverCatMigration = 314,
 	ChangeRarity = 315,
 	ChangeAlias = 316,
-	ChangeBiography = 317
+	ChangeBiography = 317,
+	Degenerate = 318
 }

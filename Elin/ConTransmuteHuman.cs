@@ -8,6 +8,8 @@ public class ConTransmuteHuman : ConBaseTransmuteMimic
 
 	public override Card Card => chara;
 
+	public bool IsBaby => chara.HasElement(1232);
+
 	public override bool HasDuration => false;
 
 	public override bool ShouldRevealOnContact => false;
@@ -28,25 +30,28 @@ public class ConTransmuteHuman : ConBaseTransmuteMimic
 
 	public override void OnBeforeStart()
 	{
-		List<Chara> list = owner.pos.ListCharasInRadius(owner, 5, delegate(Chara c)
+		if (chara == null)
 		{
-			if (c.IsHumanSpeak)
+			List<Chara> list = owner.pos.ListCharasInRadius(owner, 5, delegate(Chara c)
 			{
-				CardRenderer renderer = c.renderer;
-				if (renderer != null && !renderer.hasActor)
+				if (c.IsHumanSpeak)
 				{
-					return !c.HasElement(1427);
+					CardRenderer renderer = c.renderer;
+					if (renderer != null && !renderer.hasActor)
+					{
+						return !c.HasElement(1427);
+					}
 				}
+				return false;
+			});
+			if (list.Count > 0)
+			{
+				chara = list.RandomItem().Duplicate();
 			}
-			return false;
-		});
-		if (list.Count > 0)
-		{
-			chara = list.RandomItem().Duplicate();
-		}
-		else
-		{
-			chara = CharaGen.CreateFromFilter("c_guest");
+			else
+			{
+				chara = CharaGen.CreateFromFilter("c_guest");
+			}
 		}
 		base.OnBeforeStart();
 	}

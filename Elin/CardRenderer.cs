@@ -782,6 +782,10 @@ public class CardRenderer : RenderObject
 		{
 			return EClass.core.refs.prefs.pcc;
 		}
+		if (owner.sourceCard.replacer?.data?.pref != null)
+		{
+			return owner.sourceCard.replacer.data.pref;
+		}
 		return owner.Pref;
 	}
 }

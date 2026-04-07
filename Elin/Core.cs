@@ -443,7 +443,7 @@ public class Core : BaseCore
 						}
 						foreach (CardRow row in sources.cards.rows)
 						{
-							if (row.replacer.isChecked && row.replacer.data != null)
+							if (row.replacer.isChecked.GetValueOrDefault(row.idSprite) && row.replacer.data != null)
 							{
 								row.replacer.data.GetSprite();
 							}
