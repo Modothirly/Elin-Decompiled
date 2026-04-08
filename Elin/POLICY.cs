@@ -21,7 +21,7 @@ public class POLICY
 
 	public const int license_general = 2820;
 
-	public const int faith_tax = 2501;
+	public const int wealth_tax = 2500;
 
 	public const int license_food = 2818;
 
@@ -55,7 +55,7 @@ public class POLICY
 
 	public const int food_for_people = 2502;
 
-	public const int wealth_tax = 2500;
+	public const int faith_tax = 2501;
 
 	public const int license_furniture = 2819;
 
@@ -107,9 +107,9 @@ public class POLICY
 
 	public static readonly int[] IDS = new int[51]
 	{
-		2823, 2822, 2824, 2821, 2826, 2827, 2828, 2825, 2820, 2501,
+		2823, 2822, 2824, 2821, 2826, 2827, 2828, 2825, 2820, 2500,
 		2818, 2700, 2516, 2515, 2514, 2513, 2512, 2511, 2510, 2509,
-		2508, 2507, 2506, 2505, 2503, 2502, 2500, 2819, 2701, 2702,
+		2508, 2507, 2506, 2505, 2503, 2502, 2501, 2819, 2701, 2702,
 		2504, 2704, 2703, 2817, 2816, 2814, 2813, 2812, 2811, 2810,
 		2800, 2815, 2712, 2711, 2710, 2709, 2708, 2707, 2715, 2706,
 		2705

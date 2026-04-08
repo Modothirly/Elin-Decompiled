@@ -760,12 +760,12 @@ public class AI_Idle : AIAct
 			{
 				owner.Say("drunk_mess", owner, c);
 				owner.Talk("drunk_mess");
-				bool flag6 = EClass.rnd(5) == 0 && !c.IsPC;
+				bool flag7 = EClass.rnd(5) == 0 && !c.IsPC;
 				if (c.IsPCParty && owner.hostility >= Hostility.Friend)
 				{
-					flag6 = false;
+					flag7 = false;
 				}
-				if (flag6)
+				if (flag7)
 				{
 					owner.Say("drunk_counter", c, owner);
 					c.Talk("drunk_counter");
@@ -817,16 +817,20 @@ public class AI_Idle : AIAct
 			});
 			yield return KeepRunning();
 		}
-		if (EClass.rnd(100) == 0 && owner.trait is TraitBitch)
+		if (EClass.rnd(100) == 0)
 		{
-			Chara chara5 = DoSomethingToNearChara((Chara c) => c.IsIdle && !c.IsPCParty && !(c.trait is TraitBitch) && c.Evalue(418) <= 0);
-			if (chara5 != null)
+			bool flag6 = owner.HasElement(1291);
+			if (owner.trait is TraitBitch || flag6)
 			{
-				yield return Do(new AI_Fuck
+				Chara chara5 = DoSomethingToNearChara((Chara c) => c.IsIdle && !c.IsPCParty && !(c.trait is TraitBitch) && c.Evalue(418) <= 0);
+				if (chara5 != null)
 				{
-					target = chara5,
-					variation = AI_Fuck.Variation.Bitch
-				});
+					yield return Do(new AI_Fuck
+					{
+						target = chara5,
+						variation = ((!flag6) ? AI_Fuck.Variation.Bitch : AI_Fuck.Variation.MotherMilk)
+					});
+				}
 			}
 		}
 		if (EClass.rnd(50) == 0 && owner.trait is TraitBard)

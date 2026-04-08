@@ -233,6 +233,18 @@ public class Player : EClass
 			}
 		}
 
+		public long mama
+		{
+			get
+			{
+				return _longs[17];
+			}
+			set
+			{
+				_longs[17] = value;
+			}
+		}
+
 		public int GetShippingBonus(long _a)
 		{
 			long p = 0L;

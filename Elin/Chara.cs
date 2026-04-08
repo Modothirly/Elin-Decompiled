@@ -6852,6 +6852,10 @@ public class Chara : Card, IPathfindWalker
 			pCC.Build();
 			return pCC.variation.idle[0, 0];
 		}
+		if (spriteReplacer?.data != null)
+		{
+			return spriteReplacer.data.GetSprite();
+		}
 		int skin = 0;
 		if (sourceCard.tiles.Length > 1)
 		{

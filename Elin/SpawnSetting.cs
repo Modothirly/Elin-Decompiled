@@ -6,6 +6,8 @@ public class SpawnSetting
 
 	public int fixedLv = -1;
 
+	public int addLv;
+
 	public int tries = 100;
 
 	public int levelRange = -1;
@@ -80,13 +82,14 @@ public class SpawnSetting
 		};
 	}
 
-	public static SpawnSetting Mob(string id, string idEle = null, int fixedLv = -1)
+	public static SpawnSetting Mob(string id, string idEle = null, int fixedLv = -1, int addLv = 0)
 	{
 		return new SpawnSetting
 		{
 			id = id,
 			idEle = idEle,
-			fixedLv = fixedLv
+			fixedLv = fixedLv,
+			addLv = addLv
 		};
 	}
 

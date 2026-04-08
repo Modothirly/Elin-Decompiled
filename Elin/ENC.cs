@@ -100,7 +100,7 @@ public class ENC
 
 	public const int mod_flurry = 621;
 
-	public const int counter = 380;
+	public const int basher = 381;
 
 	public const int rusher = 382;
 
@@ -144,11 +144,11 @@ public class ENC
 
 	public const int sustain_WIL = 445;
 
-	public const int basher = 381;
+	public const int counter = 380;
 
 	public const int sustain_CHA = 447;
 
-	public const int sustain_MAG = 446;
+	public const int mod_splash = 608;
 
 	public const int mod_scatter = 607;
 
@@ -178,7 +178,7 @@ public class ENC
 
 	public const int mod_rapid = 602;
 
-	public const int mod_splash = 608;
+	public const int sustain_MAG = 446;
 
 	public const int mod_ammo_knockback = 603;
 
@@ -221,10 +221,10 @@ public class ENC
 		865, 660, 622, 850, 620, 422, 423, 424, 425, 426,
 		427, 428, 429, 430, 421, 431, 435, 436, 437, 438,
 		439, 440, 441, 442, 443, 432, 420, 419, 418, 621,
-		380, 382, 383, 400, 401, 402, 403, 404, 405, 406,
+		381, 382, 383, 400, 401, 402, 403, 404, 405, 406,
 		407, 408, 409, 410, 411, 412, 414, 415, 416, 417,
-		444, 445, 381, 447, 446, 607, 606, 605, 484, 485,
-		486, 487, 488, 489, 490, 491, 600, 601, 602, 608,
+		444, 445, 380, 447, 608, 607, 606, 605, 484, 485,
+		486, 487, 488, 489, 490, 491, 600, 601, 602, 446,
 		603, 604, 466, 450, 482, 460, 609, 461, 481, 480,
 		468, 462, 467, 483, 463, 464, 465
 	};

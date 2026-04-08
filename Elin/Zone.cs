@@ -2868,6 +2868,7 @@ public class Zone : Spatial, ICardParent, IInspect
 		}
 		long num3 = ((setting.fixedLv == -1) ? cardRow.LV : setting.fixedLv);
 		bool flag = setting.fixedLv != -1 || DangerLvBoost > 0;
+		num3 += setting.addLv;
 		if (ScaleType == ZoneScaleType.Void)
 		{
 			num3 = (50L + (long)cardRow.LV) * Mathf.Max(1, (num - 1) / 50);

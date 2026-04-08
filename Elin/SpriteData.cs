@@ -104,19 +104,30 @@ public class SpriteData
 
 	public void Load()
 	{
+		Texture2D texture2D = IO.LoadPNG(path + ".png");
+		Debug.Log(texture2D.width + "/" + texture2D.height + "/" + path);
 		if ((bool)tex)
 		{
-			UnityEngine.Object.Destroy(tex);
+			if (texture2D.width != tex.width || texture2D.height != tex.height)
+			{
+				tex.Reinitialize(texture2D.width, texture2D.height);
+			}
+			tex.SetPixels32(texture2D.GetPixels32());
+			tex.Apply();
+			UnityEngine.Object.Destroy(texture2D);
 		}
-		tex = IO.LoadPNG(path + ".png");
-		Debug.Log(tex.width + "/" + tex.height + "/" + path);
-		int num = tex.width / frame;
-		int height = tex.height;
-		sprites = new Sprite[frame];
-		Vector2 pivot = new Vector2(0.5f, 0.5f);
-		for (int i = 0; i < frame; i++)
+		else
 		{
-			sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
+			tex = texture2D;
+			int num = tex.width / frame;
+			int height = tex.height;
+			sprites = new Sprite[frame];
+			Vector2 pivot = new Vector2(0.5f, 0.5f);
+			for (int i = 0; i < frame; i++)
+			{
+				sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
+			}
 		}
+		LoadPref();
 	}
 }

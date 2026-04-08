@@ -48,13 +48,13 @@ public class ZonePreEnterEncounter : ZonePreEnterEvent
 			}
 			else
 			{
-				float num = Mathf.Clamp(EClass.pc.FameLv + 8, 8f, 24f + Mathf.Sqrt(EClass.pc.FameLv));
+				float num = Mathf.Clamp(EClass.pc.FameLv + 8, 8f, Mathf.Min(24f + Mathf.Sqrt(EClass.pc.FameLv), 100f));
 				for (int j = 0; j < EClass.rndHalf((int)num); j++)
 				{
 					Point randomPointInRadius3 = EClass.pc.pos.GetRandomPointInRadius(2, 5, requireLos: false, allowChara: false);
 					if (randomPointInRadius3 != null)
 					{
-						Chara chara3 = EClass._zone.SpawnMob(randomPointInRadius3, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3)));
+						Chara chara3 = EClass._zone.SpawnMob(randomPointInRadius3, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3), -1, EClass.player.HasKeyItem("license_adv") ? EClass.rndHalf(EClass.pc.FameLv) : 0));
 						Hostility hostility2 = (chara3.c_originalHostility = Hostility.Enemy);
 						chara3.hostility = hostility2;
 						chara3.enemy = EClass.pc.party.members.RandomItem();

@@ -56,6 +56,15 @@ public class SpriteReplacer
 		return value.GetSprite();
 	}
 
+	public void Validate()
+	{
+		data?.Validate();
+		foreach (SpriteData value in suffixes.Values)
+		{
+			value?.Validate();
+		}
+	}
+
 	public void Reload(string id, RenderData renderData = null)
 	{
 		data = null;

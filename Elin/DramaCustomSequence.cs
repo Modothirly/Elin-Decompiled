@@ -209,84 +209,32 @@ public class DramaCustomSequence : EClass
 					Choice2(flag2 ? "daBird" : "daTail", "_tail");
 				}
 				ConTransmuteHuman condition = EClass.pc.GetCondition<ConTransmuteHuman>();
-				if (condition != null && condition.IsBaby)
+				bool num2;
+				if (condition == null)
 				{
-					Choice2("daMama", "_mama");
-				}
-				if (c.trait.CanRevive)
-				{
-					Choice2("daRevive", "_revive").DisableSound();
-				}
-				if (!c.trait.IDTrainer.IsEmpty() && !EClass._zone.IsUserZone && (Guild.GetCurrentGuild() == null || Guild.GetCurrentGuild().relation.IsMember()))
-				{
-					Choice2("daTrain", "_train").DisableSound();
-				}
-				if (c.trait.CanWhore)
-				{
-					Choice2(flag2 ? "daBirdBuy" : "daTailBuy", "_whore");
-				}
-				if (c.trait.CanHeal)
-				{
-					Choice2("daHeal", "_heal");
-				}
-				if (c.trait.CanServeFood)
-				{
-					Choice2("daFood", "_food");
-				}
-				if (c.trait is TraitInformer)
-				{
-					Choice2("daSellFame", "_sellFame");
-				}
-				if (EClass._zone.AllowInvest)
-				{
-					if (c.trait.CanInvestTown && Guild.GetCurrentGuild() == null)
+					if (EClass.pc.HasElement(1232))
 					{
-						Choice2("daInvest", "_investZone");
+						goto IL_093e;
 					}
-					if (c.trait.CanInvest)
-					{
-						Choice2("daInvest", "_investShop");
-					}
+					num2 = EClass.pc.HasElement(1291);
 				}
-				if (c.trait.CanIdentify)
+				else
 				{
-					Choice2("daIdentify", "_identify").DisableSound();
-					Choice2("daIdentifyAll", "_identifyAll");
-					Choice2("daIdentifySP", "_identifySP").DisableSound();
+					num2 = condition.IsBaby;
 				}
-				if (c.trait.CanPicklock)
+				if (num2)
 				{
-					if (c.Evalue(280) < 20)
-					{
-						c.elements.SetBase(280, 20);
-					}
-					foreach (Thing item4 in EClass.pc.things.List((Thing a) => a.c_lockLv > 0, onlyAccessible: true))
-					{
-						Thing _t4 = item4;
-						Choice2("daPicklock".lang(_t4.Name), "_picklock").SetOnClick(delegate
-						{
-							destThing = _t4;
-						});
-					}
+					goto IL_093e;
 				}
-				if (c.trait is TraitBanker)
-				{
-					Choice2("daDeposit", "_deposit");
-				}
-				if (c.IsMaid || (c.trait.CanInvestTown && (EClass._zone.source.faction == "mysilia" || EClass._zone.IsPCFaction)))
-				{
-					Choice2("daExtraTax", "_extraTax");
-				}
-				if ((c.trait is TraitMiko_Mifu || c.trait is TraitMiko_Nefu || c.trait is TraitEureka) && EClass.world.date.IsExpired(c.c_dateStockExpire))
-				{
-					Choice2("daBlessing", "_blessing");
-				}
+				goto IL_094f;
 			}
-			else if (c.isDrunk || c.HasElement(1275) || EClass.debug.enable)
+			if (c.isDrunk || c.HasElement(1275) || EClass.debug.enable)
 			{
 				Choice2(flag2 ? "daBird" : "daTail", "_tail");
 			}
 		}
+		goto IL_0d68;
+		IL_0d68:
 		if (c.IsHomeMember())
 		{
 			if (c.IsMaid)
@@ -325,12 +273,12 @@ public class DramaCustomSequence : EClass
 		Talk("what", StepDefault);
 		if (!c.IsMarried || EClass.debug.enable)
 		{
-			foreach (Thing item5 in EClass.pc.things.List((Thing a) => !a.c_isImportant && !a.isEquipped && a.c_uidAttune == 0 && (a.id == "amulet_engagement" || a.id == "ring_engagement")))
+			foreach (Thing item4 in EClass.pc.things.List((Thing a) => !a.c_isImportant && !a.isEquipped && a.c_uidAttune == 0 && (a.id == "amulet_engagement" || a.id == "ring_engagement")))
 			{
-				Thing _t3 = item5;
-				Choice("daMarry".lang(item5.Name), "_marry").SetOnClick(delegate
+				Thing _t4 = item4;
+				Choice("daMarry".lang(item4.Name), "_marry").SetOnClick(delegate
 				{
-					destThing = _t3;
+					destThing = _t4;
 				});
 			}
 		}
@@ -527,17 +475,17 @@ public class DramaCustomSequence : EClass
 			QuestSupply supply = c.quest as QuestSupply;
 			if (supply != null)
 			{
-				foreach (Thing item6 in supply.ListDestThing())
+				foreach (Thing item5 in supply.ListDestThing())
 				{
-					Thing _t2 = item6;
-					Choice("daDeliver".lang(supply.GetTitle() ?? "", _t2.GetName(NameStyle.Full, supply.num)), "_deliver").SetOnClick(delegate
+					Thing _t3 = item5;
+					Choice("daDeliver".lang(supply.GetTitle() ?? "", _t3.GetName(NameStyle.Full, supply.num)), "_deliver").SetOnClick(delegate
 					{
 						EClass.game.quests.Start(c.quest);
-						destThing = _t2;
+						destThing = _t3;
 						destQuest = supply;
 					}).SetOnTooltip(delegate(UITooltip a)
 					{
-						_t2.WriteNote(a.note);
+						_t3.WriteNote(a.note);
 					});
 				}
 			}
@@ -670,11 +618,11 @@ public class DramaCustomSequence : EClass
 			{
 				EClass.pc.party.AddMemeber(c);
 			}
-			foreach (Chara item7 in EClass.pc.party.members.ToList())
+			foreach (Chara item6 in EClass.pc.party.members.ToList())
 			{
-				if (item7 != EClass.pc && item7 != c)
+				if (item6 != EClass.pc && item6 != c)
 				{
-					EClass.pc.party.RemoveMember(item7);
+					EClass.pc.party.RemoveMember(item6);
 				}
 			}
 			if (c.host != null)
@@ -844,6 +792,25 @@ public class DramaCustomSequence : EClass
 				RumorChill();
 			}
 		});
+		Step("_baby");
+		Method(delegate
+		{
+			if (c.affinity.CanBecomeMama() || EClass.debug.enable)
+			{
+				TempTalkTopic("baby_yes", StepEnd);
+				EClass.pc.SetAI(new AI_Fuck
+				{
+					target = c,
+					variation = AI_Fuck.Variation.MotherMilk,
+					sell = true
+				});
+			}
+			else
+			{
+				TempTalkTopic("baby_no", StepDefault);
+				RumorChill();
+			}
+		});
 		Step("_whore");
 		Method(delegate
 		{
@@ -910,9 +877,9 @@ public class DramaCustomSequence : EClass
 		Method(delegate
 		{
 			TempTalkTopic("blooming1", null);
-			foreach (Chara item8 in EClass.pc.party.members.Where((Chara c2) => c2.CanBloom()))
+			foreach (Chara item7 in EClass.pc.party.members.Where((Chara c2) => c2.CanBloom()))
 			{
-				Chara c4 = item8;
+				Chara c4 = item7;
 				Choice("daBloom".lang(c4.Name), delegate
 				{
 					if (EClass._zone.influence < 10)
@@ -1024,9 +991,9 @@ public class DramaCustomSequence : EClass
 					},
 					onList = delegate
 					{
-						foreach (ResearchPlan item9 in plans)
+						foreach (ResearchPlan item8 in plans)
 						{
-							list.Add(item9);
+							list.Add(item8);
 						}
 					}
 				};
@@ -1177,11 +1144,11 @@ public class DramaCustomSequence : EClass
 		Step("_buyLand");
 		Method(delegate
 		{
-			bool num5 = EClass._map.bounds.CanExpand(1);
+			bool num7 = EClass._map.bounds.CanExpand(1);
 			int costLand = CalcGold.ExpandLand();
 			GameLang.refDrama1 = "";
 			GameLang.refDrama2 = costLand.ToString() ?? "";
-			if (!num5)
+			if (!num7)
 			{
 				TempTalkTopic("expand3", StepDefault);
 			}
@@ -1263,12 +1230,12 @@ public class DramaCustomSequence : EClass
 				{
 					onClick = delegate(Element a, ButtonElement b)
 					{
-						int num4 = (EClass.pc.elements.HasBase(a.id) ? CalcPlat.Train(EClass.pc, a) : CalcPlat.Learn(EClass.pc, a));
-						if (num4 == 0)
+						int num6 = (EClass.pc.elements.HasBase(a.id) ? CalcPlat.Train(EClass.pc, a) : CalcPlat.Learn(EClass.pc, a));
+						if (num6 == 0)
 						{
 							SE.Beep();
 						}
-						else if (EClass.pc.TryPay(num4, "plat"))
+						else if (EClass.pc.TryPay(num6, "plat"))
 						{
 							if (EClass.pc.elements.HasBase(a.id))
 							{
@@ -1298,7 +1265,7 @@ public class DramaCustomSequence : EClass
 					},
 					onList = delegate
 					{
-						foreach (SourceElement.Row item10 in EClass.sources.elements.rows.Where(delegate(SourceElement.Row a)
+						foreach (SourceElement.Row item9 in EClass.sources.elements.rows.Where(delegate(SourceElement.Row a)
 						{
 							if (a.tag.Contains("unused"))
 							{
@@ -1331,7 +1298,7 @@ public class DramaCustomSequence : EClass
 							return a.category == "skill" && a.categorySub == c.trait.IDTrainer;
 						}).ToList())
 						{
-							list.Add(Element.Create(item10.id));
+							list.Add(Element.Create(item9.id));
 						}
 					}
 				};
@@ -1449,10 +1416,10 @@ public class DramaCustomSequence : EClass
 					{
 						SE.Pay();
 						EClass.pc.ModCurrency(-costIdentify);
-						foreach (Thing item11 in EClass.pc.things.List((Thing t) => !t.IsIdentified, onlyAccessible: true))
+						foreach (Thing item10 in EClass.pc.things.List((Thing t) => !t.IsIdentified, onlyAccessible: true))
 						{
-							item11.Thing.Identify(show: false);
-							if (!item11.IsInstalled)
+							item10.Thing.Identify(show: false);
+							if (!item10.IsInstalled)
 							{
 								numSuperior++;
 							}
@@ -1635,9 +1602,9 @@ public class DramaCustomSequence : EClass
 			GameLang.refDrama1 = Lang._currency(EClass.player.extraTax, "money");
 			TempTalkTopic("extraTax", null);
 			int[] array2 = taxTier;
-			foreach (int num3 in array2)
+			foreach (int num5 in array2)
 			{
-				int _i2 = num3;
+				int _i2 = num5;
 				Choice(Lang._currency(_i2, showUnit: true), delegate
 				{
 					EClass.player.extraTax = _i2;
@@ -1654,9 +1621,9 @@ public class DramaCustomSequence : EClass
 			GameLang.refDrama1 = bankMoney.ToString() ?? "";
 			TempTalkTopic("banker2", null);
 			int[] array = bankTier;
-			foreach (int num2 in array)
+			foreach (int num4 in array)
 			{
-				int _i = num2;
+				int _i = num4;
 				if (EClass.player.bankMoney >= _i)
 				{
 					Choice(Lang._currency(_i, showUnit: true), delegate
@@ -1694,6 +1661,103 @@ public class DramaCustomSequence : EClass
 		End();
 		Step("_end");
 		End();
+		return;
+		IL_093e:
+		Choice2("daMama", "_mama");
+		goto IL_094f;
+		IL_098e:
+		Choice2("daBaby", "_baby");
+		goto IL_099f;
+		IL_094f:
+		ConTransmuteHuman condition2 = c.GetCondition<ConTransmuteHuman>();
+		bool num3;
+		if (condition2 == null)
+		{
+			if (c.HasElement(1232))
+			{
+				goto IL_098e;
+			}
+			num3 = c.HasElement(1291);
+		}
+		else
+		{
+			num3 = condition2.IsBaby;
+		}
+		if (num3)
+		{
+			goto IL_098e;
+		}
+		goto IL_099f;
+		IL_099f:
+		if (c.trait.CanRevive)
+		{
+			Choice2("daRevive", "_revive").DisableSound();
+		}
+		if (!c.trait.IDTrainer.IsEmpty() && !EClass._zone.IsUserZone && (Guild.GetCurrentGuild() == null || Guild.GetCurrentGuild().relation.IsMember()))
+		{
+			Choice2("daTrain", "_train").DisableSound();
+		}
+		if (c.trait.CanWhore)
+		{
+			Choice2(flag2 ? "daBirdBuy" : "daTailBuy", "_whore");
+		}
+		if (c.trait.CanHeal)
+		{
+			Choice2("daHeal", "_heal");
+		}
+		if (c.trait.CanServeFood)
+		{
+			Choice2("daFood", "_food");
+		}
+		if (c.trait is TraitInformer)
+		{
+			Choice2("daSellFame", "_sellFame");
+		}
+		if (EClass._zone.AllowInvest)
+		{
+			if (c.trait.CanInvestTown && Guild.GetCurrentGuild() == null)
+			{
+				Choice2("daInvest", "_investZone");
+			}
+			if (c.trait.CanInvest)
+			{
+				Choice2("daInvest", "_investShop");
+			}
+		}
+		if (c.trait.CanIdentify)
+		{
+			Choice2("daIdentify", "_identify").DisableSound();
+			Choice2("daIdentifyAll", "_identifyAll");
+			Choice2("daIdentifySP", "_identifySP").DisableSound();
+		}
+		if (c.trait.CanPicklock)
+		{
+			if (c.Evalue(280) < 20)
+			{
+				c.elements.SetBase(280, 20);
+			}
+			foreach (Thing item11 in EClass.pc.things.List((Thing a) => a.c_lockLv > 0, onlyAccessible: true))
+			{
+				Thing _t2 = item11;
+				Choice2("daPicklock".lang(_t2.Name), "_picklock").SetOnClick(delegate
+				{
+					destThing = _t2;
+				});
+			}
+		}
+		if (c.trait is TraitBanker)
+		{
+			Choice2("daDeposit", "_deposit");
+		}
+		if (c.IsMaid || (c.trait.CanInvestTown && (EClass._zone.source.faction == "mysilia" || EClass._zone.IsPCFaction)))
+		{
+			Choice2("daExtraTax", "_extraTax");
+		}
+		if ((c.trait is TraitMiko_Mifu || c.trait is TraitMiko_Nefu || c.trait is TraitEureka) && EClass.world.date.IsExpired(c.c_dateStockExpire))
+		{
+			Choice2("daBlessing", "_blessing");
+		}
+		goto IL_0d68;
 		void BackChill()
 		{
 			Method(RumorChill, null, StepDefault);

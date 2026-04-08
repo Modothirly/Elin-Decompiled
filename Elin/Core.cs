@@ -445,7 +445,7 @@ public class Core : BaseCore
 						{
 							if (row.replacer.isChecked.GetValueOrDefault(row.idSprite) && row.replacer.data != null)
 							{
-								row.replacer.data.GetSprite();
+								row.replacer.Validate();
 							}
 						}
 						foreach (SpriteReplacer value in SpriteReplacer.dictSkins.Values)

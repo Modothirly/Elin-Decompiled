@@ -281,8 +281,10 @@ public class AI_Fuck : AIAct
 		{
 		case FuckType.fuck:
 		{
-			if (variation == Variation.Bloodsuck || variation == Variation.Slime)
+			switch (variation)
 			{
+			case Variation.Bloodsuck:
+			case Variation.Slime:
 				if (EClass.rnd(2) == 0)
 				{
 					chara2.AddCondition<ConConfuse>(500);
@@ -299,8 +301,8 @@ public class AI_Fuck : AIAct
 				{
 					chara2.AddCondition<ConInsane>(100 + EClass.rnd(100));
 				}
-			}
-			else
+				break;
+			default:
 			{
 				for (int i = 0; i < 2; i++)
 				{
@@ -325,6 +327,10 @@ public class AI_Fuck : AIAct
 						chara2.AddCondition<ConInsane>(100 + EClass.rnd(100));
 					}
 				}
+				break;
+			}
+			case Variation.MotherMilk:
+				break;
 			}
 			chara.Talk("tail_after");
 			bool flag3 = false;
@@ -426,7 +432,18 @@ public class AI_Fuck : AIAct
 			chara2.ModAffinity(chara, (flag || (chara.IsPC && chara2.affinity.CanSleepBeside() && EClass.rnd(10) != 0)) ? 10 : (-5));
 			if (chara == EClass.pc || chara2 == EClass.pc)
 			{
-				EClass.player.stats.kimo++;
+				if (variation == Variation.MotherMilk)
+				{
+					EClass.player.stats.mama++;
+					if (EClass.player.stats.mama >= 20 && !EClass.pc.HasElement(1291))
+					{
+						EClass.pc.SetFeat(1291, 1, msg: true);
+					}
+				}
+				else
+				{
+					EClass.player.stats.kimo++;
+				}
 			}
 			switch (variation)
 			{

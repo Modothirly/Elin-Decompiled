@@ -88,9 +88,9 @@ public class FACTION
 
 	public const int bfCave = 3500;
 
-	public const int actBuildInspect = 4006;
-
 	public const int bfLandmark1 = 3780;
+
+	public const int actBuildInspect = 4006;
 
 	public const int actBuildRecipe = 4005;
 
@@ -116,7 +116,7 @@ public class FACTION
 		2205, 2204, 2203, 2202, 2201, 2200, 2120, 2119, 2118, 2117,
 		2116, 2115, 2003, 3784, 3783, 2207, 3781, 3782, 3705, 3704,
 		3703, 3706, 3702, 3701, 3700, 3606, 3604, 3603, 3602, 3601,
-		3605, 3500, 4006, 3780, 4005, 4004, 4003, 4002, 3707, 3708,
+		3605, 3500, 3780, 4006, 4005, 4004, 4003, 4002, 3707, 3708,
 		3709, 3600, 3710
 	};
 }
