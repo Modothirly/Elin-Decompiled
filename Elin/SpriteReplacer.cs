@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class SpriteReplacer
@@ -8,6 +9,8 @@ public class SpriteReplacer
 	public static Dictionary<string, SpriteReplacer> dictSkins = new Dictionary<string, SpriteReplacer>();
 
 	public static Dictionary<string, string> dictModItems = new Dictionary<string, string>();
+
+	public static Dictionary<string, string> dictTextureItems = new Dictionary<string, string>();
 
 	public SpriteData data;
 
@@ -29,20 +32,29 @@ public class SpriteReplacer
 		{
 			dictSkins.Remove(item);
 		}
-		FileInfo[] files = new DirectoryInfo(CorePath.custom + "Skin").GetFiles("*.png");
-		foreach (FileInfo fileInfo in files)
+		Dictionary<string, string> dictionary = new DirectoryInfo(CorePath.custom + "Skin").GetFiles("*.png").ToDictionary((FileInfo f) => Path.GetFileNameWithoutExtension(f.Name), (FileInfo f) => Path.ChangeExtension(f.FullName, null));
+		string key2;
+		foreach (KeyValuePair<string, string> item2 in dictionary)
 		{
-			string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileInfo.FullName);
-			if (!dictSkins.ContainsKey(fileNameWithoutExtension))
+			item2.Deconstruct(out var key, out key2);
+			string key3 = key;
+			string path = key2;
+			if (!dictSkins.ContainsKey(key3))
 			{
-				SpriteReplacer spriteReplacer = new SpriteReplacer();
-				spriteReplacer.data = new SpriteData
+				dictSkins[key3] = new SpriteReplacer
 				{
-					path = fileInfo.GetFullFileNameWithoutExtension()
+					data = new SpriteData
+					{
+						path = path
+					}
 				};
-				spriteReplacer.data.Init();
-				dictSkins.Add(fileNameWithoutExtension, spriteReplacer);
 			}
+		}
+		foreach (KeyValuePair<string, SpriteReplacer> dictSkin2 in dictSkins)
+		{
+			dictSkin2.Deconstruct(out key2, out var value);
+			string id = key2;
+			value.BuildSuffixData(id, dictionary);
 		}
 		return dictSkins;
 	}
@@ -56,12 +68,62 @@ public class SpriteReplacer
 		return value.GetSprite();
 	}
 
+	public Sprite GetSprite(int dir, int skin, bool snow)
+	{
+		foreach (string item in new List<string>
+		{
+			$"_skin{skin}_dir{dir}",
+			$"_skin{skin}",
+			$"_dir{dir}",
+			""
+		})
+		{
+			Sprite sprite = null;
+			if (snow)
+			{
+				sprite = GetSprite(item + "_snow");
+			}
+			if ((object)sprite == null)
+			{
+				sprite = GetSprite(item);
+			}
+			if ((bool)sprite)
+			{
+				return sprite;
+			}
+		}
+		return data?.GetSprite();
+	}
+
 	public void Validate()
 	{
 		data?.Validate();
 		foreach (SpriteData value in suffixes.Values)
 		{
 			value?.Validate();
+		}
+	}
+
+	public void ReloadBuiltInTextures()
+	{
+		dictTextureItems = new DirectoryInfo(CorePath.packageCore + "Texture/Item").GetFiles("*.png").ToDictionary((FileInfo f) => Path.GetFileNameWithoutExtension(f.Name), (FileInfo f) => Path.ChangeExtension(f.FullName, null));
+	}
+
+	public void BuildSuffixData(string id, Dictionary<string, string> dictTexItems)
+	{
+		foreach (var (text3, path) in dictTexItems)
+		{
+			if (text3.StartsWith(id))
+			{
+				string text4 = text3[id.Length..];
+				SpriteData spriteData = new SpriteData
+				{
+					path = path
+				};
+				spriteData.Init();
+				suffixes[text4] = spriteData;
+				Debug.Log("#sprite replacer init '" + text4 + "' at " + path.ShortPath());
+			}
 		}
 	}
 
@@ -73,39 +135,25 @@ public class SpriteReplacer
 		{
 			if (dictModItems.ContainsKey(id))
 			{
-				foreach (var (text3, path) in dictModItems)
-				{
-					if (text3.StartsWith(id))
-					{
-						string text4 = text3[id.Length..];
-						SpriteData spriteData = new SpriteData
-						{
-							path = path
-						};
-						spriteData.Init();
-						suffixes[text4] = spriteData;
-						Debug.Log("#sprite replacer init '" + text4 + "' at " + path.ShortPath());
-					}
-				}
-				data = suffixes.TryGetValue("");
+				BuildSuffixData(id, dictModItems);
 			}
 			else
 			{
-				string text5 = CorePath.packageCore + "Texture/Item/" + id;
-				if (!File.Exists(text5 + ".png") && renderData != null)
+				if (dictTextureItems.Count == 0)
 				{
-					text5 = CorePath.packageCore + "Texture/Item/" + renderData.name;
+					ReloadBuiltInTextures();
 				}
-				if (File.Exists(text5 + ".png"))
+				string text = dictTextureItems.TryGetValue(id);
+				if (text == null && renderData != null)
 				{
-					data = new SpriteData
-					{
-						path = text5
-					};
-					data.Init();
-					suffixes[""] = data;
+					text = dictTextureItems.TryGetValue(renderData.name);
+				}
+				if (text != null)
+				{
+					BuildSuffixData(id, dictTextureItems);
 				}
 			}
+			data = suffixes.TryGetValue("");
 			if (data != null)
 			{
 				Debug.Log(id + ":" + data.path);

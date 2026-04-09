@@ -273,27 +273,10 @@ public class RenderRow : SourceData.BaseRow, IRenderSource
 		bool flag = this is SourceChara.Row;
 		if (replacer.HasSprite(idSprite, renderData))
 		{
-			foreach (string item in new List<string>
+			Sprite sprite = replacer.GetSprite(dir, skin, snow);
+			if ((bool)sprite)
 			{
-				$"_skin{skin}_dir{dir}",
-				$"_skin{skin}",
-				$"_dir{dir}",
-				""
-			})
-			{
-				Sprite sprite = null;
-				if (snow)
-				{
-					sprite = replacer.GetSprite(item + "_snow");
-				}
-				if ((object)sprite == null)
-				{
-					sprite = replacer.GetSprite(item);
-				}
-				if ((bool)sprite)
-				{
-					return sprite;
-				}
+				return sprite;
 			}
 		}
 		int[] array = null ?? _tiles;

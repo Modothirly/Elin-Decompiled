@@ -104,6 +104,8 @@ public class SpriteData
 
 	public void Load()
 	{
+		LoadPref();
+		LoadAnimationIni();
 		Texture2D texture2D = IO.LoadPNG(path + ".png");
 		Debug.Log(texture2D.width + "/" + texture2D.height + "/" + path);
 		if ((bool)tex)
@@ -119,15 +121,14 @@ public class SpriteData
 		else
 		{
 			tex = texture2D;
-			int num = tex.width / frame;
-			int height = tex.height;
-			sprites = new Sprite[frame];
-			Vector2 pivot = new Vector2(0.5f, 0.5f);
-			for (int i = 0; i < frame; i++)
-			{
-				sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
-			}
 		}
-		LoadPref();
+		int num = tex.width / frame;
+		int height = tex.height;
+		sprites = new Sprite[frame];
+		Vector2 pivot = new Vector2(0.5f, 0.5f);
+		for (int i = 0; i < frame; i++)
+		{
+			sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
+		}
 	}
 }

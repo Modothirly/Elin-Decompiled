@@ -178,7 +178,7 @@ public class CardActor : Actor
 				num2 = 2;
 			}
 			num2 = ((floatV == 1) ? ((!(floatY < 0f)) ? ((floatY < 3f) ? 1 : 2) : 0) : ((!(floatY < 2f)) ? ((!(floatY < 5f)) ? 2 : 3) : 0));
-			srAnime.sr.sprite = srAnime.data.GetSprites().TryGet(num2);
+			srAnime.sr.sprite = srAnime.data.GetSprites().TryGet(num2, returnNull: true);
 		}
 		base.transform.position = tempV;
 		base.transform.localScale = tempV2;
@@ -222,7 +222,11 @@ public class CardActor : Actor
 			{
 				spriteIndex = 0;
 			}
-			sr.sprite = spriteData.GetSprites()[spriteIndex];
+			sr.sprite = spriteData.GetSprites().TryGet(spriteIndex, returnNull: true);
+			if ((bool)sr.sprite)
+			{
+				mpb.SetTexture("_MainTex", sr.sprite.texture);
+			}
 		}
 	}
 

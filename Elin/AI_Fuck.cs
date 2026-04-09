@@ -341,7 +341,7 @@ public class AI_Fuck : AIAct
 				EClass.player.forceTalk = true;
 				chara2.Talk("seduced");
 			}
-			else if (variation != Variation.NTR && variation != Variation.Bloodsuck && variation != Variation.Slime && chara != EClass.pc)
+			else if (variation != Variation.NTR && variation != Variation.Bloodsuck && variation != Variation.Slime && variation != Variation.MotherMilk && chara != EClass.pc)
 			{
 				if (IsSacredLovemaking)
 				{
@@ -435,7 +435,7 @@ public class AI_Fuck : AIAct
 				if (variation == Variation.MotherMilk)
 				{
 					EClass.player.stats.mama++;
-					if (EClass.player.stats.mama >= 20 && !EClass.pc.HasElement(1291))
+					if (EClass.player.stats.mama >= 20 && !EClass.pc.HasElement(1291) && EClass.pc.faith != EClass.game.religions.MoonShadow)
 					{
 						EClass.pc.SetFeat(1291, 1, msg: true);
 					}

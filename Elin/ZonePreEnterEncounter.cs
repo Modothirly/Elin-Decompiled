@@ -54,12 +54,13 @@ public class ZonePreEnterEncounter : ZonePreEnterEvent
 					Point randomPointInRadius3 = EClass.pc.pos.GetRandomPointInRadius(2, 5, requireLos: false, allowChara: false);
 					if (randomPointInRadius3 != null)
 					{
-						Chara chara3 = EClass._zone.SpawnMob(randomPointInRadius3, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3), -1, EClass.player.HasKeyItem("license_adv") ? EClass.rndHalf(EClass.pc.FameLv) : 0));
+						bool flag2 = EClass.rnd(5) == 0;
+						Chara chara3 = EClass._zone.SpawnMob(randomPointInRadius3, SpawnSetting.Mob(mob.id, (mob.MainElement == Element.Void) ? null : mob.MainElement.source.alias.Substring(3), -1, (!flag2 && EClass.player.HasKeyItem("license_adv")) ? EClass.rndHalf(EClass.pc.FameLv) : 0));
 						Hostility hostility2 = (chara3.c_originalHostility = Hostility.Enemy);
 						chara3.hostility = hostility2;
 						chara3.enemy = EClass.pc.party.members.RandomItem();
 						leader = chara3;
-						if (EClass.rnd(5) == 0)
+						if (flag2)
 						{
 							TraitFoodEggFertilized.MakeBaby(chara3, 1);
 						}

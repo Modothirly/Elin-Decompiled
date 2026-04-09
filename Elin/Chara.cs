@@ -6852,16 +6852,21 @@ public class Chara : Card, IPathfindWalker
 			pCC.Build();
 			return pCC.variation.idle[0, 0];
 		}
+		bool snow = EClass.core.IsGameStarted && EClass._zone.IsSnowCovered;
+		int skin = 0;
 		if (spriteReplacer?.data != null)
 		{
-			return spriteReplacer.data.GetSprite();
+			Sprite sprite = spriteReplacer.GetSprite(dir, skin, snow);
+			if ((bool)sprite)
+			{
+				return sprite;
+			}
 		}
-		int skin = 0;
 		if (sourceCard.tiles.Length > 1)
 		{
 			skin = ((base.idSkin == 0 && !source.staticSkin) ? (base.uid % sourceCard.tiles.Length / 2 * 2 + ((!base.IsMale) ? 1 : 0)) : base.idSkin);
 		}
-		return sourceCard.GetSprite(0, skin, EClass.core.IsGameStarted && EClass._zone.IsSnowCovered);
+		return sourceCard.GetSprite(dir, skin, snow);
 	}
 
 	public void SetTempHand(int right = 0, int left = 0)
