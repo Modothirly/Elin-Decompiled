@@ -423,8 +423,8 @@ public class AI_Fuck : AIAct
 			{
 				if (chara.IsPCParty || chara2.IsPCParty)
 				{
-					chara.stamina.Mod(-5 - EClass.rnd(chara.stamina.max / 10 + ((variation == Variation.Succubus) ? StaminaCost(chara2, chara) : 0) + 1));
-					chara2.stamina.Mod(-5 - EClass.rnd(chara2.stamina.max / 20 + ((variation == Variation.Succubus) ? StaminaCost(chara, chara2) : 0) + 1));
+					chara.stamina.Mod(-5 - EClass.rnd(chara.stamina.max / 10 + ((variation == Variation.Succubus || variation == Variation.MotherMilk) ? StaminaCost(chara2, chara) : 0) + 1));
+					chara2.stamina.Mod(-5 - EClass.rnd(chara2.stamina.max / 20 + ((variation == Variation.Succubus || variation == Variation.MotherMilk) ? StaminaCost(chara, chara2) : 0) + 1));
 				}
 				SuccubusExp(chara, chara2);
 				SuccubusExp(chara2, chara);
@@ -561,9 +561,9 @@ public class AI_Fuck : AIAct
 		{
 			return (int)Mathf.Max(10f * (float)c1.END / (float)Mathf.Max(c2.END, 1), 0f);
 		}
-		static void SuccubusExp(Chara c, Chara tg)
+		void SuccubusExp(Chara c, Chara tg)
 		{
-			if (!c.HasElement(1216))
+			if (!c.HasElement(1216) || c.isDead)
 			{
 				return;
 			}
@@ -571,7 +571,7 @@ public class AI_Fuck : AIAct
 			{
 				if (c.elements.ValueWithoutLink(item.id) < item.ValueWithoutLink)
 				{
-					c.elements.ModTempPotential(item.id, 1 + EClass.rnd(item.ValueWithoutLink - c.elements.ValueWithoutLink(item.id) / 5 + 1));
+					c.elements.ModTempPotential(item.id, Mathf.Min(EClass.rnd(item.ValueWithoutLink - c.elements.ValueWithoutLink(item.id) / 5), (variation == Variation.Succubus) ? 300 : 100));
 					c.Say("succubus_exp", c, item.Name.ToLower());
 					break;
 				}

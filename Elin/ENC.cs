@@ -36,7 +36,7 @@ public class ENC
 
 	public const int encRagnarok = 667;
 
-	public const int convertCold = 851;
+	public const int convertFire = 850;
 
 	public const int mod_feint = 623;
 
@@ -46,7 +46,7 @@ public class ENC
 
 	public const int mod_cleave = 622;
 
-	public const int convertFire = 850;
+	public const int convertCold = 851;
 
 	public const int mod_chaser = 620;
 
@@ -200,9 +200,9 @@ public class ENC
 
 	public const int strongStomach = 480;
 
-	public const int bane_all = 468;
-
 	public const int bane_fairy = 462;
+
+	public const int bane_all = 468;
 
 	public const int bane_fish = 467;
 
@@ -217,8 +217,8 @@ public class ENC
 	public static readonly int[] IDS = new int[107]
 	{
 		654, 653, 652, 651, 641, 624, 640, 655, 650, 656,
-		852, 661, 662, 663, 664, 665, 666, 667, 851, 623,
-		865, 660, 622, 850, 620, 422, 423, 424, 425, 426,
+		852, 661, 662, 663, 664, 665, 666, 667, 850, 623,
+		865, 660, 622, 851, 620, 422, 423, 424, 425, 426,
 		427, 428, 429, 430, 421, 431, 435, 436, 437, 438,
 		439, 440, 441, 442, 443, 432, 420, 419, 418, 621,
 		381, 382, 383, 400, 401, 402, 403, 404, 405, 406,
@@ -226,6 +226,6 @@ public class ENC
 		444, 445, 380, 447, 608, 607, 606, 605, 484, 485,
 		486, 487, 488, 489, 490, 491, 600, 601, 602, 446,
 		603, 604, 466, 450, 482, 460, 609, 461, 481, 480,
-		468, 462, 467, 483, 463, 464, 465
+		462, 468, 467, 483, 463, 464, 465
 	};
 }

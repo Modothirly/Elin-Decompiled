@@ -14,7 +14,15 @@ public class Zone_Town : Zone_Civilized
 	{
 		if (EClass.rnd(5) == 0)
 		{
-			Chara chara = CharaGen.Create("mad_rich");
+			Add("mad_rich");
+		}
+		if (EClass.rnd(EClass.debug.enable ? 2 : 5) == 0)
+		{
+			Add("murderer");
+		}
+		void Add(string id)
+		{
+			Chara chara = CharaGen.Create(id);
 			chara.isSubsetCard = true;
 			EClass._zone.AddCard(chara, GetSpawnPos(chara));
 		}

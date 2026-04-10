@@ -411,9 +411,18 @@ public class AI_Idle : AIAct
 				{
 					owner.UseAbility(8794, owner);
 				}
-				if (EClass.rnd(25) == 0 && owner.HasElement(1427) && owner.mimicry == null)
+				if (EClass.rnd(10) == 0 && owner.HasElement(1427) && owner.mimicry == null)
 				{
 					owner.UseAbility(8796, owner);
+				}
+				if (EClass.rnd(100) == 0 && owner.HasElement(1428) && (!owner.IsPCFactionOrMinion || owner.affinity.CurrentStage < Affinity.Stage.Love))
+				{
+					DoSomethingToNearChara((Chara c) => !c.IsPCFactionOrMinion && !c.IsHostile(owner), delegate(Chara c)
+					{
+						owner.DoHostileAction(c, immediate: true);
+						c.pos.TryWitnessCrime(owner, c);
+						owner.RemoveCondition<ConTransmuteHuman>();
+					});
 				}
 			}
 			Party party = owner.party;

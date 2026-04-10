@@ -89,7 +89,6 @@ public class AI_PlayMusic : AIAct
 			{
 			case "sax":
 			case "trumpet":
-			case "harmonica":
 				idSong = "trumpet_practice";
 				break;
 			case "piano_gould":
@@ -110,6 +109,9 @@ public class AI_PlayMusic : AIAct
 				break;
 			case "ocarina":
 				idSong = "ocarina_lulu";
+				break;
+			case "harmonica":
+				idSong = "harmonica_kumi";
 				break;
 			case "guitar_efrond":
 				idSong = "guitar_dusk";
