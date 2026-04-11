@@ -48,17 +48,9 @@ public class CorePath
 	{
 		public static string TextData => Lang.setting.dir + "Data/";
 
-		public static string TextDialog
-		{
-			get
-			{
-				if (Lang.isBuiltin)
-				{
-					return packageCore + "Lang/_Dialog/";
-				}
-				return Lang.setting.dir + "Dialog/";
-			}
-		}
+		public static string TextDialog => packageCore + "Lang/_Dialog/";
+
+		public static string TextDialogLocal => Lang.setting.dir + "Dialog/";
 
 		public static string TextNarration => Lang.setting.dir + "Narration/";
 

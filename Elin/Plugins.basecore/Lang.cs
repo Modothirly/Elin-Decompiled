@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 public class Lang
@@ -211,11 +210,20 @@ public class Lang
 		{
 			excelDialog = new ExcelData(CorePath.CorePackage.TextDialog + "dialog.xlsx");
 			excelDialog.LoadBook();
+			List<ExcelData> list = new List<ExcelData>();
+			if (!isBuiltin)
+			{
+				list.Add(new ExcelData(CorePath.CorePackage.TextDialogLocal + "dialog.xlsx"));
+			}
+			foreach (string extraExcelDialog in extraExcelDialogs)
+			{
+				list.Add(new ExcelData(extraExcelDialog));
+			}
 			for (int i = 0; i < excelDialog.book.NumberOfSheets; i++)
 			{
 				string sheetName = excelDialog.book.GetSheetAt(i).SheetName;
 				excelDialog.BuildMap(sheetName);
-				foreach (ExcelData item in extraExcelDialogs.Select((string f) => new ExcelData(f)))
+				foreach (ExcelData item in list)
 				{
 					item.BuildMap(sheetName);
 					ExcelData.Sheet sheet = item.sheets[sheetName];
