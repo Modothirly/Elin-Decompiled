@@ -43,6 +43,6 @@ public class BottleMessageList
 	public static BookList.Item GetItem(string id)
 	{
 		Init();
-		return list.First((BookList.Item p) => p.id == id) ?? list[0];
+		return list.FirstOrDefault((BookList.Item p) => p.id == id) ?? list[0];
 	}
 }
