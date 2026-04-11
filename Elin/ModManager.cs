@@ -355,8 +355,12 @@ public class ModManager : ModManagerCore
 		string folderPath;
 		DateTime timeStamp;
 		bool itemInstallInfo = UserGeneratedContent.Client.GetItemInstallInfo(item.FileId, out sizeOnDisk, out folderPath, out timeStamp);
-		DirectoryInfo dir = new DirectoryInfo(folderPath);
-		ModPackage modPackage = AddPackage(dir, isInPackages);
+		DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+		if (!directoryInfo.Exists)
+		{
+			return null;
+		}
+		ModPackage modPackage = AddPackage(directoryInfo, isInPackages);
 		modPackage.installed = itemInstallInfo;
 		modPackage.banned = item.IsBanned;
 		return modPackage;

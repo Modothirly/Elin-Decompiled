@@ -98,7 +98,7 @@ public class Steam : MonoBehaviour
 
 	public static void ResetAchievement(ID_Achievement id)
 	{
-		AchievementObject achievementObject = Instance.steamworks.settings.achievements.First((AchievementObject a) => a.Id == id.ToString());
+		AchievementObject achievementObject = Instance.steamworks.settings.achievements.FirstOrDefault((AchievementObject a) => a.Id == id.ToString());
 		if (achievementObject != null)
 		{
 			achievementObject.ClearAchievement();

@@ -21,7 +21,7 @@ public class ItemStatistics : EMono
 		textShip.text = F(stat.ship, lastStatistics.ship);
 		textShop.text = F(stat.shop, lastStatistics.shop);
 		textTax.text = F(stat.tax, lastStatistics.tax);
-		static string F(int a, int b)
+		static string F(long a, long b)
 		{
 			return a.ToFormat() + " (" + b.ToFormat() + ")";
 		}

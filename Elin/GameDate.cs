@@ -286,8 +286,8 @@ public class GameDate : Date
 		}
 		int num = 0;
 		int num2 = 0;
-		int num3 = 0;
-		int num4 = 0;
+		long num3 = 0L;
+		long num4 = 0L;
 		List<Thing> list = new List<Thing>();
 		List<string> list2 = new List<string>();
 		Zone zone = EClass.game.spatials.Find(EClass.player.uidLastShippedZone);
@@ -323,6 +323,10 @@ public class GameDate : Date
 				});
 			}
 		}
+		if (num3 > int.MaxValue)
+		{
+			num3 = 2147483647L;
+		}
 		if (list.Count == 0)
 		{
 			return;
@@ -346,6 +350,10 @@ public class GameDate : Date
 		{
 			num4 = shippingBonus2 - shippingBonus;
 		}
+		if (num4 > int.MaxValue)
+		{
+			num4 = 2147483647L;
+		}
 		foreach (Thing item2 in list)
 		{
 			item2.Destroy();
@@ -353,13 +361,13 @@ public class GameDate : Date
 		Thing thing = null;
 		Thing thing2 = null;
 		string text = "";
-		if (num3 != 0)
+		if (num3 > 0)
 		{
-			thing = ThingGen.Create("money").SetNum(num3);
+			thing = ThingGen.Create("money").SetNum((int)num3);
 		}
-		if (num4 != 0)
+		if (num4 > 0)
 		{
-			thing2 = ThingGen.Create("money2").SetNum(num4);
+			thing2 = ThingGen.Create("money2").SetNum((int)num4);
 		}
 		if (thing != null && thing2 != null)
 		{

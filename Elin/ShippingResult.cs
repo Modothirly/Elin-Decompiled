@@ -123,9 +123,9 @@ public class ShippingResult : EClass
 		}
 	}
 
-	public int GetIncome()
+	public long GetIncome()
 	{
-		int num = 0;
+		long num = 0L;
 		foreach (Item item in items)
 		{
 			num += item.income;

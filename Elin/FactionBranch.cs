@@ -9,9 +9,6 @@ public class FactionBranch : EClass
 	public class Statistics : EClass
 	{
 		[JsonProperty]
-		public int ship;
-
-		[JsonProperty]
 		public int inn;
 
 		[JsonProperty]
@@ -28,6 +25,9 @@ public class FactionBranch : EClass
 
 		[JsonProperty]
 		public int tax;
+
+		[JsonProperty]
+		public long ship;
 	}
 
 	[JsonProperty]
