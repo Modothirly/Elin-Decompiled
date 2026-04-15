@@ -1491,6 +1491,10 @@ public class FactionBranch : EClass
 		case "melilith":
 			Steam.GetAchievement(ID_Achievement.MELILITH);
 			break;
+		case "priest":
+		case "priest2":
+			Steam.GetAchievement(ID_Achievement.PRIEST2);
+			break;
 		}
 	}
 

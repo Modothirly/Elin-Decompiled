@@ -571,7 +571,7 @@ public class AI_Fuck : AIAct
 			{
 				if (c.elements.ValueWithoutLink(item.id) < item.ValueWithoutLink)
 				{
-					c.elements.ModTempPotential(item.id, Mathf.Min(EClass.rnd(item.ValueWithoutLink - c.elements.ValueWithoutLink(item.id) / 5), (variation == Variation.Succubus) ? 400 : 100));
+					c.elements.ModTempPotential(item.id, Mathf.Min(EClass.rnd(item.ValueWithoutLink - c.elements.ValueWithoutLink(item.id) / 5), (variation == Variation.MotherMilk) ? 100 : 500));
 					c.Say("succubus_exp", c, item.Name.ToLower());
 					break;
 				}

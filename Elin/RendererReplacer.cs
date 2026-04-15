@@ -11,7 +11,7 @@ public class RendererReplacer : EClass
 	public static RendererReplacer CreateFrom(string id, int shift = 0, int mat = -1)
 	{
 		CardRow cardRow = EClass.sources.cards.map.TryGetValue(id);
-		if (cardRow == null || cardRow.tiles.Length == 0)
+		if (cardRow == null || cardRow._tiles.Length == 0)
 		{
 			cardRow = EClass.sources.cards.map["money2"];
 		}

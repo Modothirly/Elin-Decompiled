@@ -20,11 +20,11 @@ public class ShippingResult : EClass
 			}
 		}
 
-		public int income
+		public long income
 		{
 			get
 			{
-				return _strs[1].ToInt();
+				return _strs[1].ToLong();
 			}
 			set
 			{

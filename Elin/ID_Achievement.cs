@@ -24,5 +24,8 @@ public enum ID_Achievement
 	JURE,
 	BELL,
 	NERUN2,
-	OYS
+	OYS,
+	MAMA,
+	PRIEST,
+	PRIEST2
 }

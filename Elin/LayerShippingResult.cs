@@ -110,7 +110,7 @@ public class LayerShippingResult : ELayer
 		FactionBranch branch = (ELayer.game.spatials.Find(result.uidZone) ?? ELayer.pc.homeZone).branch;
 		float num = (float)update / (float)maxUpdate;
 		long income = result.GetIncome();
-		income = (int)((float)income * num);
+		income = (long)((float)income * num);
 		long num2 = result.total + income;
 		textIncome.text = Lang._currency(income, showUnit: true);
 		textIncomeTotal.text = Lang._currency(num2, showUnit: true);

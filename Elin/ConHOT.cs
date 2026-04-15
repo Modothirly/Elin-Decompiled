@@ -4,8 +4,11 @@ public class ConHOT : Timebuff
 {
 	public override void Tick()
 	{
-		Dice dice = Dice.Create("SpHOT", base.power);
-		owner.HealHP(dice.Roll(), HealSource.HOT);
+		if (owner.hp < owner.MaxHP)
+		{
+			Dice dice = Dice.Create("SpHOT", base.power);
+			owner.HealHP(dice.Roll(), HealSource.HOT);
+		}
 		Mod(-1);
 	}
 

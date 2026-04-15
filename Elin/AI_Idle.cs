@@ -161,7 +161,7 @@ public class AI_Idle : AIAct
 								break;
 							}
 						}
-						if (owner.id == "priest" && !owner.IsPCParty && owner.Dist(EClass.pc) <= 4)
+						if ((owner.id == "priest" || owner.id == "priest2") && !owner.IsPCParty && owner.Dist(EClass.pc) <= 4)
 						{
 							if (EClass.pc.hp < EClass.pc.MaxHP)
 							{
@@ -169,6 +169,7 @@ public class AI_Idle : AIAct
 								{
 									owner.AddCooldown(actHeal.id, 5);
 									owner.Talk("no_problem");
+									Steam.GetAchievement(ID_Achievement.PRIEST);
 								}
 							}
 							else if (!EClass.pc.HasCondition<ConHolyVeil>() && owner.UseAbility(8500, EClass.pc, null, pt: true))

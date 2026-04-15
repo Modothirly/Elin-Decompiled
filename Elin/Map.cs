@@ -1329,7 +1329,7 @@ public class Map : MapBounds, IPathfindGrid
 					}
 					if (list3.Count > 0)
 					{
-						text = list3.RandomItem().id;
+						text = list3.RandomItemWeighted((SourceThing.Row r) => r.chance)?.id;
 					}
 				}
 				else

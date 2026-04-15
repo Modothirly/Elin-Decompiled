@@ -311,7 +311,7 @@ public class GameDate : Date
 			if (thing3.trait.CanBeShipped)
 			{
 				int price = thing3.GetPrice(CurrencyType.Money, sell: true, PriceType.Shipping);
-				int num5 = price * thing3.Num;
+				long num5 = (long)price * (long)thing3.Num;
 				num3 += num5;
 				num += thing3.Num;
 				num2 += EClass.rndHalf(thing3.Num * Mathf.Min(15 + price, 10000) / 100 + 1);
@@ -322,10 +322,6 @@ public class GameDate : Date
 					income = num5
 				});
 			}
-		}
-		if (num3 > int.MaxValue)
-		{
-			num3 = 2147483647L;
 		}
 		if (list.Count == 0)
 		{
@@ -361,6 +357,12 @@ public class GameDate : Date
 		Thing thing = null;
 		Thing thing2 = null;
 		string text = "";
+		long num6 = 0L;
+		if (num3 > int.MaxValue)
+		{
+			num6 = num3 - int.MaxValue;
+			num3 = 2147483647L;
+		}
 		if (num3 > 0)
 		{
 			thing = ThingGen.Create("money").SetNum((int)num3);
@@ -394,6 +396,22 @@ public class GameDate : Date
 		if (thing2 != null)
 		{
 			EClass.pc.Pick(thing2);
+		}
+		while (num6 > 0)
+		{
+			int num7 = 0;
+			if (num6 > int.MaxValue)
+			{
+				num7 = int.MaxValue;
+				num6 -= int.MaxValue;
+			}
+			else
+			{
+				num7 = (int)num6;
+				num6 = 0L;
+			}
+			Thing t = ThingGen.Create("money").SetNum(num7);
+			EClass.pc.PickOrDrop(EClass.pc.pos, t);
 		}
 	}
 
