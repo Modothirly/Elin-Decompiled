@@ -699,6 +699,15 @@ public static class ClassExtension
 		return 0;
 	}
 
+	public static long ToLong(this string str)
+	{
+		if (long.TryParse(str, out var result))
+		{
+			return result;
+		}
+		return 0L;
+	}
+
 	public static float ToFloat(this string str)
 	{
 		float result = 0f;
