@@ -729,6 +729,7 @@ public class SourceData : ScriptableObject
 				return;
 			}
 			string name = GetType().DeclaringType.Name;
+			string langCode = Lang.langCode;
 			foreach (var (text2, fieldInfo2) in rowFields)
 			{
 				if (!text2.EndsWith("_L"))
@@ -736,13 +737,22 @@ public class SourceData : ScriptableObject
 					continue;
 				}
 				string text3 = text2[..^2];
-				if (rowFields.ContainsKey(text3) && rowFields.ContainsKey(text3 + "_JP"))
+				if (!texts.TryGetValue($"{name}.{obj}.{text3}", out var value2) || value2.IsEmpty() || !rowFields.TryGetValue(text3, out var value3) || !rowFields.TryGetValue(text3 + "_JP", out var value4))
 				{
-					fieldInfo2.SetValue(this, null);
-					if (texts.TryGetValue($"{name}.{obj}.{text3}", out var value2) && !value2.IsEmpty())
+					continue;
+				}
+				fieldInfo2.SetValue(this, null);
+				SetFieldText(fieldInfo2, value2);
+				if (!(langCode == "EN"))
+				{
+					if (langCode == "JP")
 					{
-						SetFieldText(fieldInfo2, value2);
+						SetFieldText(value4, value2);
 					}
+				}
+				else
+				{
+					SetFieldText(value3, value2);
 				}
 			}
 			void SetFieldText(FieldInfo l, string value)
