@@ -27,5 +27,7 @@ public enum ID_Achievement
 	OYS,
 	MAMA,
 	PRIEST,
-	PRIEST2
+	PRIEST2,
+	MAMA2,
+	MAMA3
 }

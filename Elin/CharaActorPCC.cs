@@ -106,30 +106,35 @@ public class CharaActorPCC : CharaActor
 			case 0:
 			{
 				Thing thing = ((owner.IsPC && EMono.player.currentHotItem.RenderThing != null) ? EMono.player.currentHotItem.RenderThing : ((!flag && owner.body.slotMainHand?.thing != null) ? owner.body.slotMainHand.thing : null));
-				if (thing != null)
+				if (thing == null)
 				{
-					bool flag2 = num == 0 || num == 1;
-					if (thing.trait.InvertHeldSprite)
-					{
-						flag2 = !flag2;
-					}
-					Vector3[] mainHandPos = EMono.setting.render.mainHandPos;
-					Vector3[] mainHand = EMono.setting.render.animeWalk[provider.currentFrame].mainHand;
-					SourcePref pref = thing.sourceCard.pref;
-					thing.dir = ((!flag2) ? 1 : 0);
-					thing.SetRenderParam(p);
-					p.x = org.x + mainHandPos[num].x + mainHand[num].x + (flag2 ? 0.01f : (-0.01f)) * (float)pref.equipX;
-					p.y = org.y + mainHandPos[num].y + mainHand[num].y + 0.01f * (float)pref.equipY;
-					p.z = org.z - thing.renderer.data.offset.z + mainHandPos[num].z + mainHand[num].z;
-					p.v.x = p.x;
-					p.v.y = p.y;
-					p.v.z = p.z;
-					if (thing.renderer.hasActor)
-					{
-						thing.renderer.RefreshSprite();
-					}
-					thing.renderer.Draw(p, ref p.v, drawShadow: false);
+					break;
 				}
+				bool flag2 = num == 0 || num == 1;
+				if (thing.trait.InvertHeldSprite)
+				{
+					flag2 = !flag2;
+				}
+				Vector3[] mainHandPos = EMono.setting.render.mainHandPos;
+				Vector3[] mainHand = EMono.setting.render.animeWalk[provider.currentFrame].mainHand;
+				SourcePref pref = thing.Pref;
+				thing.dir = ((!flag2) ? 1 : 0);
+				thing.SetRenderParam(p);
+				p.x = org.x + mainHandPos[num].x + mainHand[num].x + (flag2 ? 0.01f : (-0.01f)) * (float)pref.equipX;
+				p.y = org.y + mainHandPos[num].y + mainHand[num].y + 0.01f * (float)pref.equipY;
+				p.z = org.z - thing.renderer.data.offset.z + mainHandPos[num].z + mainHand[num].z;
+				if (thing.renderer.hasActor)
+				{
+					thing.renderer.RefreshSprite();
+					if (!flag2)
+					{
+						p.x -= thing.renderer.data._offset.x * 2f;
+					}
+				}
+				p.v.x = p.x;
+				p.v.y = p.y;
+				p.v.z = p.z;
+				thing.renderer.Draw(p, ref p.v, drawShadow: false);
 				break;
 			}
 			case -1:
@@ -158,23 +163,31 @@ public class CharaActorPCC : CharaActor
 					break;
 				}
 				Thing thing2 = owner.body.slotOffHand.thing;
-				if (thing2 != null)
+				if (thing2 == null)
 				{
-					bool flag4 = num == 1 || num == 3;
-					Vector3[] offHandPos = EMono.setting.render.offHandPos;
-					Vector3[] offHand = EMono.setting.render.animeWalk[provider.currentFrame].offHand;
-					SourcePref pref2 = thing2.source.pref;
-					thing2.dir = ((!flag4) ? 1 : 0);
-					thing2.SetRenderParam(p);
-					p.x = org.x + offHandPos[num].x + offHand[num].x + (flag4 ? 0.01f : (-0.01f)) * (float)pref2.equipX;
-					p.y = org.y + offHandPos[num].y + offHand[num].y + 0.01f * (float)pref2.equipY;
-					p.z = org.z - thing2.renderer.data.offset.z + offHandPos[num].z + offHand[num].z;
-					if (thing2.renderer.hasActor)
-					{
-						thing2.renderer.RefreshSprite();
-					}
-					thing2.renderer.Draw(p);
+					break;
 				}
+				bool flag4 = num == 1 || num == 3;
+				Vector3[] offHandPos = EMono.setting.render.offHandPos;
+				Vector3[] offHand = EMono.setting.render.animeWalk[provider.currentFrame].offHand;
+				SourcePref pref2 = thing2.Pref;
+				thing2.dir = ((!flag4) ? 1 : 0);
+				thing2.SetRenderParam(p);
+				p.x = org.x + offHandPos[num].x + offHand[num].x + (flag4 ? 0.01f : (-0.01f)) * (float)pref2.equipX;
+				p.y = org.y + offHandPos[num].y + offHand[num].y + 0.01f * (float)pref2.equipY;
+				p.z = org.z - thing2.renderer.data.offset.z + offHandPos[num].z + offHand[num].z;
+				if (thing2.renderer.hasActor)
+				{
+					thing2.renderer.RefreshSprite();
+					if (!flag4)
+					{
+						p.x -= thing2.renderer.data._offset.x * 2f;
+					}
+				}
+				p.v.x = p.x;
+				p.v.y = p.y;
+				p.v.z = p.z;
+				thing2.renderer.Draw(p, ref p.v, drawShadow: false);
 				break;
 			}
 			case -1:

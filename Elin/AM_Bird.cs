@@ -3,7 +3,7 @@ public class AM_Bird : AM_MiniGame
 	public override void OnActivate()
 	{
 		EClass.scene.transFocus = EClass.scene.flock._roamers.RandomItem().transform;
-		EClass.screen.SetTargetZoomIndex(1);
+		EClass.screen.SetTargetZoomIndex(2);
 		EClass.screen.RefreshTilt();
 		EClass.ui.layerFloat.SetActive(enable: false);
 	}
@@ -33,7 +33,7 @@ public class AM_Bird : AM_MiniGame
 	{
 		EClass.scene.transFocus = null;
 		EClass.screen.RefreshTilt();
-		EClass.screen.SetTargetZoomIndex(1);
+		EClass.screen.SetTargetZoomIndex(2);
 		EClass.ui.layerFloat.SetActive(enable: true);
 	}
 }

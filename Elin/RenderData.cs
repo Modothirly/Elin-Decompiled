@@ -7,7 +7,8 @@ public class RenderData : EScriptable, IRenderer
 
 	public static Quaternion deadRotation = Quaternion.Euler(0f, 0f, 90f);
 
-	protected Vector3 _offset;
+	[NonSerialized]
+	public Vector3 _offset;
 
 	public static GameSetting.RenderSetting renderSetting;
 

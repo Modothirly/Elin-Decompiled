@@ -1500,7 +1500,7 @@ public class CoreDebug : EScriptable
 		});
 		Add(cat2, "Edit PCC", delegate
 		{
-			EClass.ui.AddLayer<LayerEditPCC>().Activate(EClass.pc, UIPCC.Mode.Full);
+			EClass.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(EClass.pc, UIPCC.Mode.Full);
 		});
 		Add(cat2, "COM_Teleport", COM_Teleport);
 		Add(cat2, "LOG_Spatials", LOG_Spatials);

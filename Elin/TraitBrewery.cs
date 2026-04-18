@@ -37,7 +37,7 @@ public class TraitBrewery : TraitContainer
 
 	public override bool OnChildDecay(Card c, bool firstDecay)
 	{
-		if (c.trait is TraitFoodFishSlice)
+		if (c.trait is TraitFoodFishSlice || c.HasElement(707))
 		{
 			return true;
 		}

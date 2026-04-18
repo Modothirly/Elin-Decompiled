@@ -300,7 +300,7 @@ public class CardRenderer : RenderObject
 				pref = replacer.pref;
 				SubPassData.Current = SubPassData.Default;
 			}
-			if (isChara)
+			if (isChara || hasActor)
 			{
 				p.x += pref.x * (float)((!owner.flipX) ? 1 : (-1));
 				p.z += pref.z;
@@ -432,7 +432,7 @@ public class CardRenderer : RenderObject
 	{
 		if (isSynced)
 		{
-			Debug.LogError("renderer alraedy synced:" + owner);
+			Debug.LogError("renderer already synced:" + owner);
 		}
 		isSynced = true;
 		if (!usePass)
@@ -781,10 +781,6 @@ public class CardRenderer : RenderObject
 		if ((owner.IsPCC && replacer == null) || (owner.HasHost && owner.Chara.host.ride == owner))
 		{
 			return EClass.core.refs.prefs.pcc;
-		}
-		if (owner.sourceCard.replacer?.data?.pref != null)
-		{
-			return owner.sourceCard.replacer.data.pref;
 		}
 		return owner.Pref;
 	}

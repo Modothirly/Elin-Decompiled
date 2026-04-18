@@ -15,7 +15,11 @@ public class SpriteData
 
 	public Sprite[] sprites;
 
-	public DateTime date;
+	public DateTime dateTex;
+
+	public DateTime dateIni;
+
+	public DateTime datePref;
 
 	public int frame = 1;
 
@@ -53,59 +57,26 @@ public class SpriteData
 	{
 		if (!File.Exists(path + ".ini"))
 		{
+			frame = 1;
+			scale = 50;
+			time = 0.2f;
 			return;
 		}
 		try
 		{
 			IniData iniData = new FileIniDataParser().ReadFile(path + ".ini", Encoding.UTF8);
-			if (!int.TryParse(iniData.GetKey("frame") ?? "1", out frame))
-			{
-				frame = 1;
-			}
-			if (!int.TryParse(iniData.GetKey("scale") ?? "50", out scale))
-			{
-				scale = 50;
-			}
-			if (!float.TryParse(iniData.GetKey("time") ?? "0.2", out time))
-			{
-				time = 0.2f;
-			}
+			frame = Mathf.Max(1, (!int.TryParse(iniData.GetKey("frame"), out var result)) ? 1 : result);
+			scale = (int.TryParse(iniData.GetKey("scale"), out var result2) ? result2 : 50);
+			time = (float.TryParse(iniData.GetKey("time"), out var result3) ? Mathf.Max(0.016f, result3) : 0.2f);
 		}
 		catch (Exception exception)
 		{
 			Debug.LogException(exception);
-			frame = 1;
-			scale = 50;
-			time = 0.2f;
 		}
 	}
 
-	public Sprite[] GetSprites()
+	public void LoadSprites()
 	{
-		Validate();
-		return sprites;
-	}
-
-	public Sprite GetSprite()
-	{
-		Validate();
-		return sprites[0];
-	}
-
-	public void Validate()
-	{
-		DateTime lastWriteTime = File.GetLastWriteTime(path + ".png");
-		if (date.Year == 1 || !(date == lastWriteTime))
-		{
-			Load();
-			date = lastWriteTime;
-		}
-	}
-
-	public void Load()
-	{
-		LoadPref();
-		LoadAnimationIni();
 		Texture2D texture2D = IO.LoadPNG(path + ".png");
 		Debug.Log(texture2D.width + "/" + texture2D.height + "/" + path);
 		if ((bool)tex)
@@ -124,11 +95,62 @@ public class SpriteData
 		}
 		int num = tex.width / frame;
 		int height = tex.height;
-		sprites = new Sprite[frame];
+		if (sprites == null || sprites.Length != frame)
+		{
+			sprites = new Sprite[frame];
+		}
 		Vector2 pivot = new Vector2(0.5f, 0.5f);
 		for (int i = 0; i < frame; i++)
 		{
 			sprites[i] = Sprite.Create(tex, new Rect(i * num, 0f, num, height), pivot, 100f, 0u, SpriteMeshType.FullRect);
 		}
+	}
+
+	public Sprite[] GetSprites()
+	{
+		if (sprites == null)
+		{
+			Load();
+		}
+		return sprites;
+	}
+
+	public Sprite GetSprite()
+	{
+		if (sprites == null)
+		{
+			Load();
+		}
+		return sprites.TryGet(0, returnNull: true);
+	}
+
+	public void Validate()
+	{
+		if (IsDirty(".png", ref dateTex) || IsDirty(".ini", ref dateIni) || IsDirty(".pref", ref datePref))
+		{
+			Load();
+		}
+		bool IsDirty(string p, ref DateTime lastChecked)
+		{
+			string text = path + p;
+			if (!File.Exists(text))
+			{
+				return false;
+			}
+			DateTime lastWriteTimeUtc = File.GetLastWriteTimeUtc(text);
+			if (lastWriteTimeUtc == lastChecked)
+			{
+				return false;
+			}
+			lastChecked = lastWriteTimeUtc;
+			return true;
+		}
+	}
+
+	public void Load()
+	{
+		LoadAnimationIni();
+		LoadPref();
+		LoadSprites();
 	}
 }

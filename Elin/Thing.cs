@@ -51,15 +51,12 @@ public class Thing : Card
 		get
 		{
 			SourcePref pref = trait.GetPref();
-			if (pref == null)
+			if (pref != null)
 			{
-				if (source.origin == null || source.pref.UsePref)
-				{
-					return source.pref;
-				}
-				pref = source.origin.pref;
+				return pref;
 			}
-			return pref;
+			CardRow cardRow = ((source.origin != null && !source.pref.UsePref) ? source.origin : source);
+			return cardRow.replacer.data?.pref ?? cardRow.pref;
 		}
 	}
 

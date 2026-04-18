@@ -12,12 +12,12 @@ public class TraitMirror : Trait
 	{
 		p.TrySetAct("actDress", delegate
 		{
-			EClass.ui.AddLayer<LayerEditPCC>().Activate(EClass.pc, UIPCC.Mode.Body);
+			EClass.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(EClass.pc, UIPCC.Mode.Body);
 			return false;
 		}, owner);
 		p.TrySetAct("actDress2", delegate
 		{
-			EClass.ui.AddLayer<LayerEditPCC>().Activate(EClass.pc, UIPCC.Mode.Extra);
+			EClass.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(EClass.pc, UIPCC.Mode.Extra);
 			return false;
 		}, owner);
 	}

@@ -185,7 +185,7 @@ public class TraitAltar : Trait
 			}
 			if (Deity.id != EClass.pc.faith.id)
 			{
-				bool flag = EClass.rnd(EClass.pc.faith.GetOfferingValue(t, t.Num)) > EClass.rnd(200);
+				bool flag = EClass.rnd(EClass.pc.faith.GetOfferingValue(t, t.Num)) > EClass.rnd(200) || IsEyth;
 				if (GetParam(1) != null || EClass.pc.IsEyth)
 				{
 					Msg.Say("nothingHappens");

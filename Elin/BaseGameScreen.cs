@@ -445,9 +445,9 @@ public class BaseGameScreen : EMono
 		{
 			float z = position.z;
 			targetZoom = TargetZoom;
-			for (int i = 0; i < EMono.core.config.camera.zooms.Length; i++)
+			for (int i = 0; i < EMono.core.config.camera.listZoom.Length; i++)
 			{
-				if (targetZoom == EMono.core.config.camera.zooms[i])
+				if (targetZoom == EMono.core.config.camera.listZoom[i])
 				{
 					targetZoomIndex = i;
 				}
@@ -477,21 +477,21 @@ public class BaseGameScreen : EMono
 			pushBack = Vector3.zero;
 			int num = scrollX - scrollY;
 			int num2 = scrollY + scrollX;
-			if ((float)num <= mapLimit.x)
+			if ((float)num * Zoom <= mapLimit.x)
 			{
-				pushBack.x = mapLimit.x - (float)num;
+				pushBack.x = mapLimit.x - (float)num * Zoom;
 			}
-			if ((float)num2 <= mapLimit.y)
+			if ((float)num2 * Zoom <= mapLimit.y)
 			{
-				pushBack.y = mapLimit.y - (float)num2;
+				pushBack.y = mapLimit.y - (float)num2 * Zoom;
 			}
-			if ((float)num >= (float)EMono._map.Size + mapLimit.width - (float)(width / 2))
+			if ((float)num >= (float)EMono._map.Size + mapLimit.width - (float)(width / 2) * Zoom)
 			{
-				pushBack.x = (float)EMono._map.Size + mapLimit.width - (float)(width / 2) - (float)num;
+				pushBack.x = (float)EMono._map.Size + mapLimit.width - (float)(width / 2) * Zoom - (float)num;
 			}
-			if ((float)num2 >= (float)EMono._map.Size + mapLimit.height - (float)(height / 2))
+			if ((float)num2 >= (float)EMono._map.Size + mapLimit.height - (float)(height / 2) * Zoom)
 			{
-				pushBack.y = (float)EMono._map.Size + mapLimit.height - (float)(height / 2) - (float)num2;
+				pushBack.y = (float)EMono._map.Size + mapLimit.height - (float)(height / 2) * Zoom - (float)num2;
 			}
 			position += Quaternion.Euler(planeAngle) * pushBack * Core.delta * pushbackSpeed;
 		}
@@ -866,7 +866,7 @@ public class BaseGameScreen : EMono
 	{
 		targetZoomIndex = index;
 		float num = targetZoom;
-		targetZoom = EMono.core.config.camera.zooms[targetZoomIndex];
+		targetZoom = EMono.core.config.camera.listZoom[targetZoomIndex];
 		if (num != targetZoom)
 		{
 			zoomTimer = 0f;
@@ -879,8 +879,8 @@ public class BaseGameScreen : EMono
 		{
 			int num = targetZoomIndex;
 			targetZoomIndex -= a;
-			int num2 = ((!EMono.core.config.camera.extendZoomMin) ? 1 : 0);
-			int num3 = (EMono.core.config.camera.extendZoomMax ? 4 : 3);
+			int num2 = ((!EMono.core.config.camera.extendZoomMin) ? 2 : 0);
+			int num3 = (EMono.core.config.camera.extendZoomMax ? 5 : 4);
 			if (targetZoomIndex < num2)
 			{
 				targetZoomIndex = num2;

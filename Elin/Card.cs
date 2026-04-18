@@ -6377,8 +6377,8 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 			SpriteReplacer spriteReplacer = SpriteReplacer.dictSkins.TryGetValue(c_idSpriteReplacer);
 			if (spriteReplacer != null)
 			{
-				RenderData renderData = ResourceCache.Load<RenderData>("Scene/Render/Data/chara_custom_" + ((spriteReplacer.data.GetSprite().texture.height <= 128) ? "128" : "256"));
-				sprite = spriteReplacer.data.GetSprite();
+				sprite = spriteReplacer.GetSprite();
+				RenderData renderData = ResourceCache.Load<RenderData>("Scene/Render/Data/chara_custom_" + ((sprite.texture.height <= 128) ? "128" : "256"));
 				sourceRenderCard.SetImage(image, sprite, colorInt, setNativeSize: true, 0, 0, renderData, spriteReplacer.data.pref ?? Pref);
 				return;
 			}

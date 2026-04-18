@@ -364,7 +364,7 @@ public class BaseListPeople : ListOwner<Chara, ItemGeneral>
 					{
 						uIContextMenu.AddButton("editPCC", delegate
 						{
-							EClass.ui.AddLayer<LayerEditPCC>().Activate(c, UIPCC.Mode.Full);
+							EClass.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(c, UIPCC.Mode.Full);
 						});
 						uIContextMenu.AddButton("togglePCC", delegate
 						{

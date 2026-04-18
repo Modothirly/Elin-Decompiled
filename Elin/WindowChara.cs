@@ -491,7 +491,7 @@ public class WindowChara : WindowController
 	{
 		if (chara.IsPC)
 		{
-			EClass.ui.AddLayer<LayerEditPCC>().Activate(chara, UIPCC.Mode.Body, null, delegate
+			EClass.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(chara, UIPCC.Mode.Body, null, delegate
 			{
 				portrait.SetChara(chara);
 			});

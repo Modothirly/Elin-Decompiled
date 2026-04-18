@@ -66,13 +66,13 @@ public class CalcMoney : EClass
 
 	public static int InvestShop(Chara c, Chara tc)
 	{
-		long a = Guild.Merchant.InvestPrice(tc.c_invest * 700);
-		return Mathf.Max(b: Invest(Guild.Merchant.InvestPrice(tc.c_invest * tc.c_invest * 80 + 200)), a: Invest(a));
+		long a = Guild.Merchant.InvestPrice((long)tc.c_invest * 700L);
+		return Mathf.Max(b: Invest(Guild.Merchant.InvestPrice((long)tc.c_invest * (long)tc.c_invest * 80 + 200)), a: Invest(a));
 	}
 
 	public static int InvestZone(Chara c)
 	{
-		long a = EClass._zone.development * 50;
+		long a = (long)EClass._zone.development * 50L;
 		return Mathf.Max(b: Invest((long)EClass._zone.development * (long)EClass._zone.development / 4 + 500), a: Invest(a));
 	}
 }

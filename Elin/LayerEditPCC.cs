@@ -51,6 +51,7 @@ public class LayerEditPCC : ELayer
 				actor.Reset();
 			});
 		};
+		uiPCC.onRefreshParts = SetPccPicker;
 		PCCData newData = new PCCData();
 		newData.Set(chara.pccData);
 		backup = IO.DeepCopy(newData);
@@ -125,6 +126,11 @@ public class LayerEditPCC : ELayer
 		});
 	}
 
+	public void OnClickPartPicker(UIItemPCC uiItemPcc)
+	{
+		ELayer.ui.AddLayer<LayerPickPCC>("LayerPCC/LayerPickPCC").Activate(uiPCC, uiItemPcc);
+	}
+
 	public override void OnKill()
 	{
 		Apply();
@@ -163,6 +169,18 @@ public class LayerEditPCC : ELayer
 				chara.c_idPortrait = b.id;
 				portrait.SetChara(chara, uiPCC.actor.data);
 			}, (ModItem<Sprite> a) => (!a.id.IsEmpty()) ? a.id : "None");
+		}
+	}
+
+	public void SetPccPicker()
+	{
+		foreach (UIItemPCC item in uiPCC.items)
+		{
+			item.buttonPicker.onClick.AddListener(delegate
+			{
+				OnClickPartPicker(item);
+			});
+			item.buttonPicker.GetComponent<ButtonGeneral>().tooltip.lang = "LayerPickPCC".lang();
 		}
 	}
 }

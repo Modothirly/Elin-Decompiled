@@ -441,7 +441,7 @@ public class UICharaMaker : EMono
 
 	public void EditPCC()
 	{
-		EMono.ui.AddLayer<LayerEditPCC>().Activate(chara, UIPCC.Mode.Body, null, delegate
+		EMono.ui.AddLayer<LayerEditPCC>("LayerPCC/LayerEditPCC").Activate(chara, UIPCC.Mode.Body, null, delegate
 		{
 			portrait.SetChara(chara);
 			SetPortraitSlider();

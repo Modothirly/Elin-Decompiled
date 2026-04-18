@@ -856,6 +856,18 @@ public class DramaCustomSequence : EClass
 			if (c.affinity.CanBecomeMama() || EClass.pc.faith == EClass.game.religions.MoonShadow || EClass.debug.enable)
 			{
 				Steam.GetAchievement(ID_Achievement.MAMA);
+				string id2 = c.id;
+				if (!(id2 == "farris"))
+				{
+					if (id2 == "quru")
+					{
+						Steam.GetAchievement(ID_Achievement.MAMA3);
+					}
+				}
+				else
+				{
+					Steam.GetAchievement(ID_Achievement.MAMA2);
+				}
 				TempTalkTopic("mama_yes", StepEnd);
 				EClass.pc.SetAI(new AI_Fuck
 				{

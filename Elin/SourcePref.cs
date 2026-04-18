@@ -366,19 +366,29 @@ public class SourcePref : EClass, ISerializationCallbackReceiver
 		}
 		File.CreateText(path).Close();
 		IniData iniData = fileIniDataParser.ReadFile(path, Encoding.UTF8);
-		iniData.Global["x"] = ints[4].ToString() ?? "";
-		iniData.Global["y"] = ints[5].ToString() ?? "";
-		iniData.Global["z"] = ints[2].ToString() ?? "";
-		iniData.Global["pivotX"] = pivotX.ToString() ?? "";
-		iniData.Global["pivotY"] = pivotY.ToString() ?? "";
-		iniData.Global["shadow"] = shadow.ToString() ?? "";
-		iniData.Global["shadowX"] = shadowX.ToString() ?? "";
-		iniData.Global["shadowY"] = shadowY.ToString() ?? "";
-		iniData.Global["height"] = ints[3].ToString() ?? "";
-		iniData.Global["scaleIcon"] = scaleIcon.ToString() ?? "";
-		iniData.Global["liquidMod"] = liquidMod.ToString() ?? "";
-		iniData.Global["hatY"] = ints[23].ToString() ?? "";
-		iniData.Global["flags"] = ints[1].ToString() ?? "";
+		iniData.Global["x"] = ints[4].ToString();
+		iniData.Global["y"] = ints[5].ToString();
+		iniData.Global["z"] = ints[2].ToString();
+		iniData.Global["pivotX"] = pivotX.ToString();
+		iniData.Global["pivotY"] = pivotY.ToString();
+		iniData.Global["shadow"] = shadow.ToString();
+		iniData.Global["shadowX"] = shadowX.ToString();
+		iniData.Global["shadowY"] = shadowY.ToString();
+		iniData.Global["shadowRX"] = shadowRX.ToString();
+		iniData.Global["shadowRY"] = shadowRY.ToString();
+		iniData.Global["shadowBX"] = shadowBX.ToString();
+		iniData.Global["shadowBY"] = shadowBY.ToString();
+		iniData.Global["shadowBRX"] = shadowBRX.ToString();
+		iniData.Global["shadowBRY"] = shadowBRY.ToString();
+		iniData.Global["height"] = ints[3].ToString();
+		iniData.Global["heightFix"] = ints[24].ToString();
+		iniData.Global["scaleIcon"] = scaleIcon.ToString();
+		iniData.Global["liquidMod"] = liquidMod.ToString();
+		iniData.Global["liquidModMax"] = liquidModMax.ToString();
+		iniData.Global["hatY"] = ints[23].ToString();
+		iniData.Global["equipX"] = equipX.ToString();
+		iniData.Global["equipY"] = equipY.ToString();
+		iniData.Global["stackX"] = ints[17].ToString();
 		fileIniDataParser.WriteFile(path, iniData);
 	}
 
@@ -393,13 +403,22 @@ public class SourcePref : EClass, ISerializationCallbackReceiver
 		sourcePref.pivotY = iniData.Global["pivotY"].ToInt();
 		sourcePref.shadow = iniData.Global["shadow"].ToInt();
 		sourcePref.shadowX = iniData.Global["shadowX"].ToInt();
-		sourcePref.shadowRX = -sourcePref.shadowX;
-		int num2 = (sourcePref.shadowRY = iniData.Global["shadowY"].ToInt());
-		sourcePref.shadowY = num2;
+		sourcePref.shadowY = iniData.Global["shadowY"].ToInt();
+		sourcePref.shadowRX = iniData.Global["shadowRX"].ToInt();
+		sourcePref.shadowRY = iniData.Global["shadowRY"].ToInt();
+		sourcePref.shadowBX = iniData.Global["shadowBX"].ToInt();
+		sourcePref.shadowBY = iniData.Global["shadowBY"].ToInt();
+		sourcePref.shadowBRX = iniData.Global["shadowBRX"].ToInt();
+		sourcePref.shadowBRY = iniData.Global["shadowBRY"].ToInt();
 		sourcePref.ints[3] = iniData.Global["height"].ToInt();
+		sourcePref.ints[24] = iniData.Global["heightFix"].ToInt();
 		sourcePref.scaleIcon = iniData.Global["scaleIcon"].ToInt();
 		sourcePref.liquidMod = iniData.Global["liquidMod"].ToInt();
+		sourcePref.liquidModMax = iniData.Global["liquidModMax"].ToInt();
 		sourcePref.ints[23] = iniData.Global["hatY"].ToInt();
+		sourcePref.equipX = iniData.Global["equipX"].ToInt();
+		sourcePref.equipY = iniData.Global["equipY"].ToInt();
+		sourcePref.ints[17] = iniData.Global["stackX"].ToInt();
 		sourcePref.ints[1] = iniData.Global["flags"].ToInt();
 		return sourcePref;
 	}

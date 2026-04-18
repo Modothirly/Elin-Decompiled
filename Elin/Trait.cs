@@ -2023,7 +2023,7 @@ public class Trait : EClass
 					break;
 				case ShopType.Moyer:
 				{
-					for (int num14 = 1; num14 <= 20; num14++)
+					for (int num14 = 1; num14 <= 21; num14++)
 					{
 						AddAdvWeek(num14);
 					}

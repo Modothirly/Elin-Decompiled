@@ -98,6 +98,8 @@ public class CoreConfig : EClass
 		public int moveframe;
 
 		public float[] zooms;
+
+		public float[] listZoom = new float[7] { 0.125f, 0.25f, 0.5f, 0.75f, 1f, 1.5f, 2f };
 	}
 
 	[Serializable]
