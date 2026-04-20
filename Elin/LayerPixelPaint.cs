@@ -1,5 +1,6 @@
 using System;
 using Empyrean.ColorPicker;
+using SFB;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,40 @@ public class LayerPixelPaint : ELayer
 
 	public Action onApply;
 
-	public override void OnInit()
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Close();
+		}
+	}
+
+	public void SetCanvas(TraitCanvas c)
+	{
+		onApply = delegate
+		{
+			c.owner.PlaySound(c.owner.material.GetSoundImpact());
+			c.owner.renderer.PlayAnime(AnimeID.Shiver);
+			Thing thing = c.owner.Split(1);
+			thing.c_textureData = paint.tex.EncodeToPNG();
+			thing.isModified = true;
+			thing.ClearPaintSprite();
+			thing.GetPaintSprite();
+			thing.renderer.RefreshSprite();
+			Close();
+		};
+		paint.size = new Vector2Int(c.Width, c.Height);
+		InitPaint();
+		if (c.owner.c_textureData != null)
+		{
+			paint.tex.LoadImage(c.owner.c_textureData);
+		}
+		paint.imageMask.texture = c.owner.GetSprite().texture;
+		paint.imageMask.SetNativeSize();
+		paint.imagePreview.SetNativeSize();
+	}
+
+	public void InitPaint()
 	{
 		UIItem t = layoutColors.CreateMold<UIItem>();
 		for (int i = 0; i < 8; i++)
@@ -37,6 +71,12 @@ public class LayerPixelPaint : ELayer
 		{
 			onApply?.Invoke();
 		});
+		windows[0].AddBottomButton("loadImage", delegate
+		{
+			DialogLoad(delegate
+			{
+			});
+		});
 		windows[0].AddBottomButton("cancel", delegate
 		{
 			Close();
@@ -44,26 +84,38 @@ public class LayerPixelPaint : ELayer
 		paint.Init();
 	}
 
-	public void SetCanvas(TraitCanvas c)
+	public void DialogLoad(Action onLoad = null)
 	{
-		onApply = delegate
+		ELayer.core.WaitForEndOfFrame(delegate
 		{
-			c.owner.PlaySound(c.owner.material.GetSoundImpact());
-			c.owner.renderer.PlayAnime(AnimeID.Shiver);
-			Thing thing = c.owner.Split(1);
-			thing.c_textureData = paint.tex.EncodeToPNG();
-			thing.isModified = true;
-			thing.ClearPaintSprite();
-			thing.GetPaintSprite();
-			thing.renderer.RefreshSprite();
-			Close();
-		};
-		if (c.owner.c_textureData != null)
-		{
-			paint.tex.LoadImage(c.owner.c_textureData);
-		}
-		paint.imageMask.texture = c.owner.GetSprite().texture;
-		paint.imageMask.SetNativeSize();
-		paint.imagePreview.SetNativeSize();
+			string[] array = StandaloneFileBrowser.OpenFilePanel("Load PNG Image", CorePath.CustomDrawing, "png", multiselect: false);
+			if (array.Length != 0)
+			{
+				Texture2D texture2D = IO.LoadPNG(array[0]);
+				if (texture2D != null)
+				{
+					int num = (paint.size.x - texture2D.width) / 2;
+					int num2 = (paint.size.y - texture2D.height) / 2;
+					if (num < 0)
+					{
+						num = 0;
+					}
+					if (num2 < 0)
+					{
+						num2 = 0;
+					}
+					for (int i = 0; i < texture2D.height && i < paint.size.y; i++)
+					{
+						for (int j = 0; j < texture2D.width && j < paint.size.x; j++)
+						{
+							paint.tex.SetPixel(num + j, num2 + i, texture2D.GetPixel(j, i));
+						}
+					}
+					paint.tex.Apply();
+					SE.Change();
+					UnityEngine.Object.Destroy(texture2D);
+				}
+			}
+		});
 	}
 }

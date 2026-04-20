@@ -6195,10 +6195,6 @@ public class Chara : Card, IPathfindWalker
 			{
 				ModExp(a.id, spellExp);
 			}
-			if (a.source.alias.StartsWith("sword_"))
-			{
-				ModExp(101, 50);
-			}
 		}
 		ActEffect.RapidCount = 0;
 		if (flag3 && !a.source.tag.Contains("keepInvisi") && EClass.rnd(2) == 0)

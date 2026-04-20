@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LayerEditPCC : ELayer
@@ -134,6 +135,10 @@ public class LayerEditPCC : ELayer
 	public override void OnKill()
 	{
 		Apply();
+		foreach (Layer item in ELayer.ui.layers.Where((Layer l) => l is LayerPickPCC).ToList())
+		{
+			item.Close();
+		}
 	}
 
 	private void Update()

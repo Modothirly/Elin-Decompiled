@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Empyrean.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -66,7 +65,8 @@ public class LayerPickPCC : ELayer
 				ModItem<Texture2D> modItem = part.modTextures.TryGetValue("walk");
 				if (modItem == null)
 				{
-					break;
+					UnityEngine.Object.Destroy(item.gameObject);
+					continue;
 				}
 				item.button.tooltip.lang = GetPartProviderString(part);
 				item.button.onClick.AddListener(delegate
@@ -75,10 +75,8 @@ public class LayerPickPCC : ELayer
 					SetOutline(item.outline);
 				});
 				item.SetSprites(IO.LoadPNG(modItem.fileInfo.FullName));
-				HSVColor hsv = _uiPcc.pcc.data.GetColor(_uiItemPcc.idPartSet).ToHsv();
-				hsv.v = 1f;
-				hsv.a = 1f;
-				item.button.icon.color = hsv.ToRGB();
+				Color color = _uiPcc.pcc.data.GetColor(_uiItemPcc.idPartSet);
+				item.button.icon.color = _uiPcc.pccm.ApplyColorMod(color);
 			}
 			_items.Add(item);
 		}

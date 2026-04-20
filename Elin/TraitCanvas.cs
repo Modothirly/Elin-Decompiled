@@ -7,7 +7,13 @@ public class TraitCanvas : Trait
 
 	public virtual bool PointFilter => false;
 
+	public virtual bool UsePortraitFilter => true;
+
 	public virtual float Scale => 1f;
+
+	public virtual int Width => 28;
+
+	public virtual int Height => 28;
 
 	public virtual TraitPainter.Type CanvasType => TraitPainter.Type.Paint;
 

@@ -33,13 +33,13 @@ public class ELEMENT
 
 	public const int _void = 0;
 
-	public const int d = 3;
+	public const int socket = 5;
 
 	public const int lv = 1;
 
 	public const int quality = 2;
 
-	public const int socket = 5;
+	public const int d = 3;
 
 	public const int nutrition = 10;
 
@@ -51,13 +51,13 @@ public class ELEMENT
 
 	public const int growth = 14;
 
-	public const int heat = 16;
+	public const int water = 15;
 
 	public const int decay = 17;
 
 	public const int taste = 18;
 
-	public const int water = 15;
+	public const int heat = 16;
 
 	public const int fire = 21;
 
@@ -80,8 +80,8 @@ public class ELEMENT
 	public static readonly int[] IDS = new int[36]
 	{
 		759, 756, 755, 761, 753, 752, 751, 750, 762, 763,
-		765, 760, 754, 0, 3, 1, 2, 5, 10, 11,
-		12, 13, 14, 16, 17, 18, 15, 21, 22, 23,
+		765, 760, 754, 0, 5, 1, 2, 3, 10, 11,
+		12, 13, 14, 15, 17, 18, 16, 21, 22, 23,
 		24, 25, 26, 29, 85, 20
 	};
 }

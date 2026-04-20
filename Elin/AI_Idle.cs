@@ -412,7 +412,7 @@ public class AI_Idle : AIAct
 				{
 					owner.UseAbility(8794, owner);
 				}
-				if (EClass.rnd(10) == 0 && owner.HasElement(1427) && owner.mimicry == null)
+				if (EClass.rnd((!(owner.id == "unseenhand")) ? 10 : (owner.isSummon ? 9999 : 2)) == 0 && owner.HasElement(1427) && owner.mimicry == null)
 				{
 					owner.UseAbility(8796, owner);
 				}
@@ -422,7 +422,10 @@ public class AI_Idle : AIAct
 					{
 						owner.DoHostileAction(c, immediate: true);
 						c.pos.TryWitnessCrime(owner, c);
-						owner.RemoveCondition<ConTransmuteHuman>();
+						if (owner.mimicry != null)
+						{
+							owner.mimicry.RevealMimicry(c, surprise: true);
+						}
 					});
 				}
 			}

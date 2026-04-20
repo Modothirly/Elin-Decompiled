@@ -245,6 +245,7 @@ public class CardActor : Actor
 				if (owner.trait is TraitCanvas traitCanvas)
 				{
 					sr2.transform.SetLocalScale(traitCanvas.Scale, traitCanvas.Scale, 1f);
+					mpb2.SetFloat("_PortraitFilterStrength", traitCanvas.UsePortraitFilter ? 1 : 0);
 				}
 			}
 			else

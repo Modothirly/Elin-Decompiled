@@ -4657,6 +4657,11 @@ public class Card : BaseCard, IReservable, ICardParent, IRenderSource, IGlobalVa
 					Rand.SetSeed();
 				}
 				Die(e, origin, attackSource, originalTarget);
+				if (origin != null && origin.id == "unseenhand" && !origin.IsGlobal)
+				{
+					origin.isSummon = true;
+					origin.c_summonDuration = 4;
+				}
 				if (trait.CanBeSmashedToDeath && !EClass._zone.IsUserZone)
 				{
 					Rand.SetSeed(uid);

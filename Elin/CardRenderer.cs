@@ -484,7 +484,7 @@ public class CardRenderer : RenderObject
 		{
 			AddExtra(idExtra);
 		}
-		if (isChara && owner.rarity >= Rarity.Legendary && owner.rarity != Rarity.Artifact && !owner.Chara.IsHomeMember())
+		if (isChara && owner.rarity >= Rarity.Legendary && owner.rarity != Rarity.Artifact && !owner.Chara.IsHomeMember() && !owner.HasCondition<ConBaseTransmuteMimic>())
 		{
 			if (owner.c_bossType == BossType.Evolved)
 			{

@@ -14,9 +14,10 @@ public class StanceSongEnd : BaseSong
 			}
 			if (30 * Mathf.Min(base.power / 4, 100) / 100 > EClass.rnd(100))
 			{
-				ActEffect.ProcAt(EffectId.Hand, new ActHand().GetPower(owner), BlessedState.Normal, owner, item, item.pos, isNeg: true, new ActRef
+				Act act = Element.Create((EClass.rnd(2) == 0) ? 50402 : ((EClass.rnd(2) == 0) ? 50401 : 50400), owner.CHA) as Act;
+				ActEffect.ProcAt(EffectId.Hand, act.GetPower(owner), BlessedState.Normal, owner, item, item.pos, isNeg: true, new ActRef
 				{
-					aliasEle = ((EClass.rnd(2) == 0) ? "eleLightning" : ((EClass.rnd(2) == 0) ? "eleCold" : "eleFire"))
+					act = act
 				});
 			}
 		}

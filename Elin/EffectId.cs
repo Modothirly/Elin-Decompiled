@@ -139,5 +139,6 @@ public enum EffectId
 	ChangeRarity = 315,
 	ChangeAlias = 316,
 	ChangeBiography = 317,
-	Degenerate = 318
+	Degenerate = 318,
+	MassFear = 319
 }

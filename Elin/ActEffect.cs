@@ -266,6 +266,7 @@ public class ActEffect : EClass
 						Debug.Log(text2);
 					}
 					num4 = dice.Roll();
+					Debug.Log(id.ToString() + "/" + text2 + "/" + power + "/" + actref.act?.ToString() + "/" + dice?.ToString() + "/" + num4);
 					switch (id)
 					{
 					case EffectId.Earthquake:
@@ -564,6 +565,10 @@ public class ActEffect : EClass
 			if (!DamageEle(CC, id, power, element, list6, actRef, (id == EffectId.DrainBlood || id == EffectId.DrainMana) ? "" : ((id == EffectId.Sword) ? "spell_sword" : "spell_hand")))
 			{
 				CC.Say("spell_hand_miss", CC, element.Name.ToLower());
+			}
+			if (id == EffectId.Sword && CC.ExistsOnMap)
+			{
+				CC.ModExp(101, 50);
 			}
 			return;
 		}

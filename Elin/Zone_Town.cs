@@ -16,9 +16,9 @@ public class Zone_Town : Zone_Civilized
 		{
 			Add("mad_rich");
 		}
-		if (EClass.rnd(EClass.debug.enable ? 2 : 5) == 0)
+		if (EClass.rnd(EClass.debug.enable ? 1 : 8) == 0)
 		{
-			Add("murderer");
+			Add((EClass.rnd(EClass.debug.enable ? 1 : 4) == 0) ? "unseenhand" : "murderer");
 		}
 		void Add(string id)
 		{

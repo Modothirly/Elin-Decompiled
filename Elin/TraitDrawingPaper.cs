@@ -2,6 +2,8 @@ public class TraitDrawingPaper : TraitCanvas
 {
 	public override bool PointFilter => true;
 
+	public override bool UsePortraitFilter => false;
+
 	public override float Scale => 2f;
 
 	public override TraitPainter.Type CanvasType => TraitPainter.Type.Paper;
