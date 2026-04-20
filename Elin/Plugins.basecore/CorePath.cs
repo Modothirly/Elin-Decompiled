@@ -207,6 +207,8 @@ public class CorePath
 
 	public static string PathIni => RootSave + "elin.ini";
 
+	public static string CustomDrawing => custom + "Drawing/";
+
 	public static string PathBackupOld => RootSave + "Backup/";
 
 	public static string PathBackup => RootData + "Backup/";
